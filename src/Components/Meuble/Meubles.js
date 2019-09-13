@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import Meuble from './Meuble';
 import { Col, Row,Button } from 'reactstrap';
 import ModalMeuble from './ModalMeuble';
+import Format from '../Other/Format';
 
 export default class Meubles extends Component {
     constructor(props){
@@ -31,7 +32,7 @@ export default class Meubles extends Component {
           headers:{
             'Content-Type': 'application/json'
           },
-            body: formData
+            body: JSON.stringify(formData)
       }
       var req = new Request('http://localhost:8000/api/meubles', parameters);
       fetch(req)
@@ -53,7 +54,7 @@ export default class Meubles extends Component {
     }
     render() {
 
-        const meubles = this.state.meubles.map((value, index) => <Col key={index} sm={10} md={3} ><Meuble footerBgColor='#ff0000' categorie={value.categorie.categorie} prix={value.prix} nom={value.nomMeuble} numserie={value.numSerie}/></Col>)
+        const meubles = this.state.meubles.map((value, index) => <Col key={index} sm={10} md={3} ><Meuble footerBgColor='#ff0000' categorie={value.categorie.categorie} prix={new Format().formatPrix(value.prix.toString())} nom={value.nomMeuble} numserie={value.numSerie}/></Col>)
         return (
         <div>
             <Row>

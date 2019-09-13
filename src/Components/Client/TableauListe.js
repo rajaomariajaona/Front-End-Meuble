@@ -1,6 +1,7 @@
  import React, { Component } from 'react'
  import { Table, ButtonGroup , Button } from 'reactstrap';
 import {FaTrashAlt, FaPenAlt} from 'react-icons/fa'
+import Format from '../Other/Format';
  export default class TableauListe extends Component {
 
     render() {
@@ -8,7 +9,7 @@ import {FaTrashAlt, FaPenAlt} from 'react-icons/fa'
             <tr key={client.numClient}>
                 <td>{client.nomClient}</td>
                 <td>{client.prenomClient}</td>
-                <td>{client.telClient}</td>
+                <td>{new Format().formatTel(client.telClient)}</td>
                 <td>{client.emailClient}</td>
                 <td>{client.provinceClient.province}</td>
                 <td>

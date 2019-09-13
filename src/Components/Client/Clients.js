@@ -80,15 +80,13 @@ export default class Clients extends Component {
         });
     }
 
-    postClient(e){
-        e.preventDefault();
-        var formData = new FormData(e.target);
+    postClient(formData){
         var parameters = {
           method: "POST",
           headers:{
             'Content-Type': 'application/json'
           },
-            body: JSON.stringify(Object.fromEntries(formData))
+            body: JSON.stringify(formData)
       }
       var req = new Request('http://localhost:8000/api/clients', parameters);
       fetch(req)

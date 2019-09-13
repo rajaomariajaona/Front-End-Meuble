@@ -6,7 +6,7 @@ export default class InputCustom extends Component {
         return (
             <FormGroup>
               <Label for={(this.props.name).toLowerCase()}>{this.props.label}</Label>
-              <Input valid={this.props.valid} invalid={this.props.invalid} type={this.props.type} name={(this.props.name).toLowerCase()} id={(this.props.name).toLowerCase()} placeholder={this.props.placeholder} />
+              <Input onBlur={this.props.onBlur} onChange={this.props.onChange} valid={this.props.valid} invalid={this.props.invalid} type={this.props.type} name={(this.props.name).toLowerCase()} id={(this.props.name).toLowerCase()} placeholder={this.props.placeholder} />
               <FormFeedback>{this.props.errorMessage}</FormFeedback>
             </FormGroup>
         )
