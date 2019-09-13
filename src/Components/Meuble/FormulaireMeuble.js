@@ -11,6 +11,7 @@ export default class FormulaireMeuble extends Component {
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.field = ["numserie", "nom" , "prix"]
+    this.isError = this.isError.bind(this)
   }
   componentDidMount(){
     var req = new Request('http://localhost:8000/api/categories');
@@ -41,25 +42,24 @@ export default class FormulaireMeuble extends Component {
       }
       this.setState({isValid: isValidTemp})
     }
-    var isValid
-    var errorMessage
-    if(Number.isNaN(Number(formData.numserie))){
-      error = true
-      isValid = this.state.isValid
-      isValid.numserie = false
-      errorMessage = this.state.errorMessage
-      errorMessage.numserie = "Veuillez entrez un valeur correct"
-    }
-    if(Number.isNaN(Number(formData.prix))){
-      error = true
-      isValid = this.state.isValid
-      isValid.prix = false
-      errorMessage = this.state.errorMessage
-      errorMessage.prix = "Veuillez entrez un valeur correct"
-    }
+    error = this.isError(error,Number.isNaN(Number(formData.numserie)), "numserie", "Veuillez entrez une valeur correcte")
+    error = this.isError(error, Number.isNaN(Number(formData.prix)), "prix", "Veuillez entrez une valeur correcte")
+
     if(!error){
       this.props.onSubmit(formData)
     }
+  }
+  isError(error: Boolean,test: Boolean, fieldName: String, message: String) {
+    var isValid
+    var errorMessage
+    if(test){
+      error = true
+      isValid = this.state.isValid
+      isValid[fieldName] = false
+      errorMessage = this.state.errorMessage
+      errorMessage[fieldName] = message
+    }
+    return error
   }
     render() {
       const categories = this.state.categories.map((categorie, index) => <option key={index}>{categorie.categorie}</option>)
