@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
-import InputCustom from './InputCustom';
+import InputCustom from '../Other/InputCustom';
 
 export default class FormulaireClient extends Component {
   constructor(props){

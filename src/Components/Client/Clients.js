@@ -4,7 +4,7 @@ import TableauListe from './TableauListe';
 import ModalClient from './ModalClient';
 import Confirmation from '../Other/Confirmation';
 
-export default class Client extends Component {
+export default class Clients extends Component {
     constructor(props){
         super(props)
         this.state ={ modalConfirmation : false,
