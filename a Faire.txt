@@ -1,0 +1,12 @@
+Acceuil :
+    Statisque
+Clients :
+    CRUD:
+Commandes:
+    CRUD:
+    Facture:
+Meubles:
+    CRUD:
+Bilan:
+    Statisque:
+    PDF generator:

@@ -1,24 +1,17 @@
 import React from 'react';
+import Login from "./Components/Login";
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
-import Acceuil from "./Components/Acceuil";
-import Clients from './Components/Client/Clients';
-import Test from './Test';
-import Meubles from './Components/Meuble/Meubles';
-
-
+import Main from './Components/Main/Main';
 export default class App extends React.Component {
   
   render() {
     return (
       <Router>
         <Switch>
-          <Route path="/meubles" component={Meubles}/> 
-          <Route path="/clients" component={Clients}/> 
-          <Route path="/test" component={Test}/> 
-          <Route path="/" component={Acceuil} />
+          <Route exact path="/" component={Login} />
+          <Route path="/main/" component={Main}/>
         </Switch>
       </Router>
-       
     );
   }
 }

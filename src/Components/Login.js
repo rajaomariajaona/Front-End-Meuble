@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, Form, FormGroup, Label, Input, Button } from 'reactstrap';
  
- export default class Acceuil extends Component {
+ export default class Login extends Component {
      constructor(props) {
          super(props)
          this.state = {username: '', password: ''};
