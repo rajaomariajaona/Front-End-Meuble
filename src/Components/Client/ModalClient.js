@@ -10,7 +10,7 @@ export default class ModalClient extends Component {
     
     render() {
         return (
-        <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} className={this.props.className}>
+        <Modal open={this.props.isOpen} toggle={this.props.toggle} className={this.props.className}>
           <ModalHeader> {this.props.modalType} client </ModalHeader>
           <ModalBody>
             <FormulaireClient addValue={this.props.addValue} ajout={this.props.ajout} onCancel={this.props.onCancel} onSubmit={this.props.onSubmit} />

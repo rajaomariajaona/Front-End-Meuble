@@ -1,40 +1,53 @@
  import React, { Component } from 'react'
- import { ButtonGroup , Button } from 'shards-react';
-import {FaTrashAlt, FaPenAlt} from 'react-icons/fa'
 import Format from '../Other/Format';
+import { Table, Column, HeaderCell, Cell } from 'rsuite-table'
+import 'rsuite-table/lib/less/index.less';
+
  export default class TableauListe extends Component {
 
-    render() {
-         const rows = this.props.clients.map(client => 
-            <tr key={client.numClient}>
-                <td>{client.nomClient}</td>
-                <td>{client.prenomClient}</td>
-                <td>{new Format().formatTel(client.telClient)}</td>
-                <td>{client.emailClient}</td>
-                <td>{client.provinceClient.province}</td>
-                <td>
-                <ButtonGroup>
-                    <Button id={'del' + client.numClient} theme="danger" onClick={this.props.onDeleteClient}> <span><FaTrashAlt/></span>  </Button>
-                    <Button id={'mod' + client.numClient} theme="success" onClick={this.props.onModifyClient}> <span><FaPenAlt/></span>  </Button>
-                </ButtonGroup></td>
-            </tr>
-         );
+  constructor(props){
+    super(props)
+    var columns = [
+      { headerName: 'Nom', field: 'nom'  },
+      { headerName: 'Prenom', field: 'prenom' },
+      { headerName: 'Telephone', field: 'tel' },
+      { headerName: 'Email', field: 'email' },
+      { headerName: 'Province', field: 'province' }
+    ];
+    var data = []
+         this.props.clients.forEach((client) =>{
+            var temp = {}
+            temp["nom"] = client.nomClient
+            temp["prenom"] = client.prenomClient
+            temp["tel"] = new Format().formatTel(client.telClient)
+            temp["email"] = client.emailClient
+            temp["province"] = client.provinceClient.province
+            data.push(temp)
+         })
+    this.state = {colonnes: columns, lignes: data}
+  }
 
+    render() {
+      
+      
          return (
-            <table>
-            <thead>
-              <tr>
-                <th>Nom</th>
-                <th>Prenom</th>
-                <th>Telephone</th>
-                <th>Email</th>
-                <th>Province</th>
-              </tr>
-            </thead>
-            <tbody>
-              {rows}
-            </tbody>
-          </table>
+      <Table 
+        data={this.state.lignes}
+        height={400}
+      >
+      <Column width={100} sort fixed resizable>
+      <HeaderCell>Nom</HeaderCell>
+      <Cell dataKey="nom" />
+      </Column>
+      <Column width={100} resizable>
+      <HeaderCell>Prenom</HeaderCell>
+      <Cell dataKey="prenom" />
+      </Column>
+      <Column width={100} resizable>
+      <HeaderCell>Telephone</HeaderCell>
+      <Cell dataKey="tel" />
+      </Column>
+      </Table>
          )
      }
  }

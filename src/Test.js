@@ -1,7 +1,7 @@
 import React from 'react'
-import Meuble from './Components/Meuble/Meuble';
 import { Col } from 'shards-react';
 import Format from './Components/Other/Format'
+import { Loader } from 'react-loaders';
 export default class Test extends React.Component {
     constructor(props){
         super(props)
@@ -13,8 +13,10 @@ export default class Test extends React.Component {
     }
     render() {
         return (
-            <Col md={3}>
-                <Meuble />
+            <Col>
+            <center>
+                <Loader className="mt-5" type="line-scale" active color="#007bff"/>
+            </center>
             </Col>
         );
     }

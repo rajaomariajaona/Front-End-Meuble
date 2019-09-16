@@ -4,7 +4,7 @@
  export default class Confirmation extends Component {
      render() {
          return (
-            <Modal isOpen={this.props.isOpen} toggle={this.props.toggle} className={this.props.className}>
+            <Modal open={this.props.isOpen} toggle={this.props.toggle} className={this.props.className}>
             <ModalHeader> {this.props.text} </ModalHeader>
             <ModalFooter>
               <Button theme="primary" onClick={this.props.onYes}>Oui</Button>{' '}

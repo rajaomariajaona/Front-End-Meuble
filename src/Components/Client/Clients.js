@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { Container, Button } from 'shards-react';
+import { Button } from 'shards-react';
 import TableauListe from './TableauListe';
-import ModalClient from './ModalClient';
 import Confirmation from '../Other/Confirmation';
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import FormulaireClient from './FormulaireClient';
+import Loading from '../Other/Loading';
 
 export default class Clients extends Component {
     constructor(props){
@@ -13,35 +15,13 @@ export default class Clients extends Component {
             modalType: "Ajout",
             client :[],
             deleteID: '',
-            modifyID: ''
+            modifyID: '',
+            modifData: '',
+            loading: true
         }
-        this.addValue = this.addValue.bind(this)
         this.toggleModalConfirmation = this.toggleModalConfirmation.bind(this)
-        this.toggleModalClientModif = this.toggleModalClientModif.bind(this)
-        this.toggleModalClientAjout = this.toggleModalClientAjout.bind(this)
-        this.postClient = this.postClient.bind(this)
-        this.putClient = this.putClient.bind(this)
+        this.modify = this.modify.bind(this)
         this.deleteClient = this.deleteClient.bind(this)
-    }
-    addValue(){
-        var numClient = this.state.modifyID
-        var req = new Request('http://localhost:8000/api/clients/'+ numClient);
-        var client;
-        fetch(req)
-        .then(response => {
-            response.json().then(data =>{
-                    client = data;
-                }).then(()=>{
-                    document.querySelector("#nom").value = client.nomClient
-                    document.querySelector("#prenom").value = client.prenomClient
-                    document.querySelector("#adresse").value = client.adresseClient
-                    document.querySelector("#province").value = client.provinceClient.province
-                    document.querySelector("#cp").value = client.cpClient
-                    document.querySelector("#email").value = client.emailClient
-                    document.querySelector("#tel").value = client.telClient
-                })
-        });
-        
     }
     toggleModalConfirmation(e){
         if(e){
@@ -59,44 +39,22 @@ export default class Clients extends Component {
     toggleModalClientAjout(e){
         this.setState({modalClientAjout : !this.state.modalClientAjout});
     }
-    toggleModalClientModif(e){
-        if(e){
-            
-            this.setState({
-                modalClientModif : !this.state.modalClientModif,
-                modifyID: e.currentTarget.id.replace("mod", "")
-            });
-        }else{
-            this.setState({modalClientModif : !this.state.modalClientModif});
-        }
+    modify(e){
+        var num = e.currentTarget.id.replace("mod", "")
+        window.location.replace("/main/clients/modif/"+num)
     }
     getClient(){
+        this.setState({loading: true})
         var req = new Request('http://localhost:8000/api/clients');
         fetch(req)
         .then(response => {
             response.json().then(data =>{
-                    this.setState({clients: data});
+                    this.setState({clients: data, loading: false});
                 })
         });
     }
 
-    postClient(formData){
-        var parameters = {
-          method: "POST",
-          headers:{
-            'Content-Type': 'application/json'
-          },
-            body: JSON.stringify(formData)
-      }
-      var req = new Request('http://localhost:8000/api/clients', parameters);
-      fetch(req)
-      .then(response => {
-          if(response.status === 201){
-            this.toggleModalClientAjout()
-            this.getClient();
-          }
-      });
-      }
+
     deleteClient(){
         this.toggleModalConfirmation()
         var numClient = this.state.deleteID
@@ -112,42 +70,26 @@ export default class Clients extends Component {
             }
         });
     }
-    putClient(e){
-        e.preventDefault()
-        var numClient = this.state.modifyID
-        var formData = new FormData(e.target)
-        var parameters = {
-            method: "PUT",
-            headers:{
-                'Content-Type': 'application/json'
-              },
-            body: JSON.stringify(Object.fromEntries(formData))
-        }
-        var req = new Request('http://localhost:8000/api/clients/' + numClient, parameters);
-        fetch(req)
-        .then(response => {
-            if(response.status === 200){
-                this.getClient();
-                this.toggleModalClientModif()
-            }
-        });
-    }
+
     componentDidMount() {
         this.getClient();
     }
     render() {
         return (
-            <Container>
-                <TableauListe onDeleteClient={this.toggleModalConfirmation} onModifyClient={this.toggleModalClientModif} clients={this.state.clients}/>
+            <div>
+                <Router>
+                    <Switch>
+                        <Route exact path="/main/clients" component={() => this.state.loading? (<Loading/>):( <div>
+                        <TableauListe onDeleteClient={this.toggleModalConfirmation} onModifyClient={this.modify}  clients={this.state.clients}/> <Button theme="success" href="/main/clients/ajout">Ajouter</Button> </div> )}/>
+                        <Route path="/main/clients/ajout" component={() =><FormulaireClient ajout onSubmit={this.postClient} hrefCancel="/main/clients"/>}/>
 
-                <ModalClient ajout={true} modalType="Ajout" onSubmit={this.postClient} isOpen={this.state.modalClientAjout} onCancel={this.toggleModalClientAjout}/>
-
-                <ModalClient addValue={this.addValue} ajout={false} modalType="Modification" onSubmit={this.putClient} isOpen={this.state.modalClientModif} onCancel={this.toggleModalClientModif}/>
+                        <Route path="/main/clients/modif" component={() =><FormulaireClient ajout={false} onSubmit={this.putClient} hrefCancel="/main/clients"/>}/>
+                    </Switch>
+                </Router>
 
                 <Confirmation text=" Voulez vous supprimer? " onNo={this.toggleModalConfirmation} onYes={this.deleteClient} isOpen={this.state.modalConfirmation} toggle={this.toggleModalConfirmation} />
 
-                <Button theme="success" onClick={this.toggleModalClientAjout}>Ajouter</Button>
-            </Container>
+            </div>
         )
     }
 }

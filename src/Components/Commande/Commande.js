@@ -9,7 +9,6 @@ export default class Commande extends Component {
         {this.props.numcommande}
         </CardHeader>
         <CardBody>
-        
         </CardBody>
       </Card>
         )

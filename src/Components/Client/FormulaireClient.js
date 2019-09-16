@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
-import { Button, Form, FormGroup, FormInput, FormSelect } from 'shards-react';
+import { Button, Form, FormGroup, FormSelect, Row, Col } from 'shards-react';
 import InputCustom from '../Other/InputCustom';
 import Masque from '../Other/Masque'
 import Format from '../Other/Format';
+import Loading from '../Other/Loading';
 
 export default class FormulaireClient extends Component {
   constructor(props){
@@ -10,7 +11,8 @@ export default class FormulaireClient extends Component {
     this.state = {provinces : [],
       isValid: {nom: true, prenom: true, tel: true, email: true, adresse: true, cp: true},
       errorMessage: {nom: "", prenom: "", tel: "", email: "", adresse: "", cp: ""},
-    error: true
+    error: true,
+    loading: false
     }
     this.field = Object.keys(this.state.isValid)
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -28,6 +30,42 @@ export default class FormulaireClient extends Component {
       return true
     }
 }
+
+postClient(formData){
+  var parameters = {
+    method: "POST",
+    headers:{
+      'Content-Type': 'application/json'
+    },
+      body: JSON.stringify(formData)
+}
+var req = new Request('http://localhost:8000/api/clients', parameters);
+fetch(req)
+.then(response => {
+    if(response.status === 201){
+      window.location.replace('/main/clients')
+      this.getClient();
+    }
+});
+}
+
+putClient(formData){
+  var parameters = {
+      method: "PUT",
+      headers:{
+          'Content-Type': 'application/json'
+        },
+      body: JSON.stringify(formData)
+  }
+  var req = new Request(this.link, parameters);
+  fetch(req)
+  .then(response => {
+      if(response.status === 200){
+        window.location.pathname= "/main/clients"
+      }
+  });
+}
+
   handleSubmit(event){
     event.preventDefault()
     var error = false
@@ -47,7 +85,11 @@ export default class FormulaireClient extends Component {
     }
     if(!error){
       formData.tel = this.format.unformatTel(formData.tel)
-      this.props.onSubmit(formData)
+      if(this.props.ajout){
+        this.postClient(formData)
+      }else{
+        this.putClient(formData)
+      }
     }
   }
   isError(test: Boolean, fieldName: String, message: String) {
@@ -71,8 +113,27 @@ export default class FormulaireClient extends Component {
                 })
     });
     if(!this.props.ajout){
-      this.props.addValue()
+      this.setState({loading: true})
+      this.link = window.location.href.replace("3000", "8000").replace("main", "api").replace("/modif", "")
+      req = new Request(this.link);
+      fetch(req)
+      .then(response => {
+        var client
+          response.json().then(data =>{ 
+            client = data
+            this.setState({loading: false})
+          }).then(() =>{
+            document.querySelector("#nom").value = client.nomClient
+            document.querySelector("#prenom").value = client.prenomClient
+            document.querySelector("#adresse").value = client.adresseClient
+            document.querySelector("#province").value = client.provinceClient.province
+            document.querySelector("#cp").value = client.cpClient
+            document.querySelector("#email").value = client.emailClient
+            document.querySelector("#tel").value = client.telClient
+          })
+      });
     }
+    
   }
 
   handleChange(event){
@@ -144,25 +205,50 @@ export default class FormulaireClient extends Component {
   }
     render() {
       const provinces = this.state.provinces.map((province, index) => <option key={index}>{province.province}</option>)
-        return (
-            <Form id="formulaire-client" onSubmit={this.handleSubmit}>
+        return ( (
+          <div>
+            {this.state.loading && <Loading />}
+            <Form className="mt-3 " style={ this.state.loading?{display : 'none'} : {display : 'block'}} id="formulaire-client" onSubmit={this.handleSubmit}>
+              <Row>
+              <Col md={6} sm={12}>
               <InputCustom onBlur={this.handleOnBlur} onChange={this.handleChange} invalid={!this.state.isValid.nom} errorMessage={this.state.errorMessage.nom}  placeholder="Nom" name="nom" label="Nom" />
+              </Col>
+              <Col md={6} sm={12} >
               <InputCustom onBlur={this.handleOnBlur}  onChange={this.handleChange} invalid={!this.state.isValid.prenom} errorMessage={this.state.errorMessage.prenom}  placeholder="Prenom" name="prenom" label="Prenom"/>
-              <InputCustom onBlur={this.handleOnBlur} onChange={this.handleChange} invalid={!this.state.isValid.tel} errorMessage={this.state.errorMessage.tel}  placeholder="03xxxxxxxx" name="tel" label="Telephone"/>
-              <InputCustom onBlur={this.handleOnBlur}  onChange={this.handleChange} invalid={!this.state.isValid.email} errorMessage={this.state.errorMessage.email}  placeholder="Email" name="email" label="Email"/>
-              <InputCustom onBlur={this.handleOnBlur}  onChange={this.handleChange} invalid={!this.state.isValid.adresse} errorMessage={this.state.errorMessage.adresse}  placeholder="Adresse" name="adresse" label="Adresse" />
-              <InputCustom onBlur={this.handleOnBlur} onChange={this.handleChange} invalid={!this.state.isValid.cp} errorMessage={this.state.errorMessage.cp}  placeholder="Code Postale" name="cp" label="Code Postale"/>
 
+              </Col>
+              <Col md={6} sm={12} >
+              <InputCustom onBlur={this.handleOnBlur}  onChange={this.handleChange} invalid={!this.state.isValid.email} errorMessage={this.state.errorMessage.email}  placeholder="Email" name="email" label="Email"/>
+
+              </Col>
+              <Col md={6} sm={12} >
+              <InputCustom onBlur={this.handleOnBlur} onChange={this.handleChange} invalid={!this.state.isValid.tel} errorMessage={this.state.errorMessage.tel}  placeholder="03xxxxxxxx" name="tel" label="Telephone"/>
+
+              </Col>
+              <Col md={4} sm={12} >
+              <InputCustom onBlur={this.handleOnBlur}  onChange={this.handleChange} invalid={!this.state.isValid.adresse} errorMessage={this.state.errorMessage.adresse}  placeholder="Adresse" name="adresse" label="Adresse" />
+
+              </Col>
+              <Col md={4} sm={12} >
+              <InputCustom onBlur={this.handleOnBlur} onChange={this.handleChange} invalid={!this.state.isValid.cp} errorMessage={this.state.errorMessage.cp}  placeholder="Code Postale" name="cp" label="Code Postale"/>
+                  
+              </Col>
+              <Col md={4} sm={12} >
+                  
             <FormGroup>
-              <label for="province">Provinces</label>
+              <label htmlFor="province">Provinces</label>
               <FormSelect name="province" id="province">
                 {provinces}
               </FormSelect>
             </FormGroup>
+              </Col>
+
             
-            <Button disabled={this.state.error} type="submit" theme="primary">{this.props.ajout ? "Ajouter" : "Modifier"}</Button>{' '}
-            <Button onClick={this.props.onCancel} >Annuler</Button>
+            <Button className="mx-2" disabled={this.state.error} type="submit" theme="primary">{this.props.ajout ? "Ajouter" : "Modifier"}</Button>
+            <Button  className="mx-2" theme="secondary" href={this.props.hrefCancel} onClick={this.props.onCancel} >Annuler</Button>
+              </Row>
           </Form>
+          </div>)
         )
     }
 }

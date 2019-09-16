@@ -1,0 +1,10 @@
+a.nav-link{
+    color: white!important;
+    font-weight: 400;
+}
+button.dropdown-item a.nav-link{
+    color: #007bff!important
+}
+a.navbar-brand{
+    font-weight: bold;
+}

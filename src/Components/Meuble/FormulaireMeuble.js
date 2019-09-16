@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Form, FormGroup,FormInput, FormSelect } from 'shards-react';
+import { Button, Form, FormGroup, FormSelect } from 'shards-react';
 import InputCustom from '../Other/InputCustom';
 import PropTypes from 'prop-types'
 import Masque from '../Other/Masque'
@@ -118,7 +118,7 @@ export default class FormulaireMeuble extends Component {
               <InputCustom onChange={this.handleChange} invalid={!this.state.isValid.nom} errorMessage={this.state.errorMessage.nom} placeholder="Nom" name="nom" label="Nom"/>
               <InputCustom onChange={this.handleChange} invalid={!this.state.isValid.prix} errorMessage={this.state.errorMessage.prix} placeholder="Prix" name="prix" label="Prix"/>
             <FormGroup>
-              <label for="categorie">Select</label>
+              <label htmlFor="categorie">Select</label>
               <FormSelect name="categorie" id="categorie">
                 {categories}
               </FormSelect>

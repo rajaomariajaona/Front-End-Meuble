@@ -1,73 +1,83 @@
 import React, { Component } from 'react'
-
-import {
-    Collapse,
-    Navbar,
-    NavbarToggler,
-    NavbarBrand,
-    Nav,
-    NavItem,
-    NavLink,
-    Dropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem } from 'shards-react';
+import './Navigation.css'
+import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
+import { FaHome, FaUsers, FaShoppingCart, FaCouch, FaChartLine } from 'react-icons/fa';
+import '@trendmicro/react-sidenav/dist/react-sidenav.min.css';
 
 export default class Navigation extends Component {
     constructor(props) {
         super(props);
-    
-        this.toggle = this.toggle.bind(this);
         this.state = {
-          isOpen: false
         };
-      }
-      toggle() {
-        this.setState({
-          isOpen: !this.state.isOpen
-        });
       }
     render() {
         return (
-            <Navbar type="dark" theme="primary" expand="md">
-            <NavbarBrand href="/">Meubles</NavbarBrand>
-            <NavbarToggler onClick={this.toggle} />
-            <Collapse isOpen={this.state.isOpen} navbar>
-              <Nav className="ml-auto" navbar>
-              <NavItem>
-                  <NavLink href="/main/">Acceuil</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink href="/main/clients/">Clients</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink href="/main/commandes/">Commandes</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink href="/main/meubles/">Meubles</NavLink>
-                </NavItem>
-            <Dropdown
-              open={this.state.isOpen}
-              toggle={this.toggle}
-            >
-                  <DropdownToggle nav caret>
-                    Bilan
-                  </DropdownToggle>
-                  <DropdownMenu right>
-                    <DropdownItem>
-                    <NavLink href="/main/bilan/journalier">Journalier</NavLink>
-                    </DropdownItem>
-                    <DropdownItem>
-                    <NavLink href="/main/bilan/mensuelle">Mensuelle</NavLink>
-                    </DropdownItem>
-                    <DropdownItem>
-                    <NavLink href="/main/bilan/annuelle">Annuelle</NavLink>
-                    </DropdownItem>
-                  </DropdownMenu>
-                </Dropdown>
-              </Nav>
-            </Collapse>
-          </Navbar>
+          <SideNav className="position-fixed" id="side" style={{backgroundColor : '#2196F3'}}
+    onSelect={(selected) => {
+        if(window.location.pathname !== selected){
+            window.location.pathname = selected
+        }
+    }}
+>
+    <SideNav.Toggle id="toggler" />
+    <SideNav.Nav  defaultSelected={window.location.pathname}>
+        <NavItem  eventKey="/main/">
+            <NavIcon >
+                <FaHome style={{fontSize: '1.75em', color:"white"}} />
+            </NavIcon>
+            <NavText>
+                Acceuil
+            </NavText>
+        </NavItem>
+        <NavItem eventKey="/main/clients">
+            <NavIcon >
+                <FaUsers style={{fontSize: '1.75em', color:"white"}} />
+            </NavIcon>
+            <NavText>
+                Clients 
+            </NavText>
+        </NavItem>
+        <NavItem eventKey="/main/commandes">
+            <NavIcon >
+                <FaShoppingCart style={{fontSize: '1.75em', color:"white"}} />
+            </NavIcon>
+            <NavText>
+                Commandes
+            </NavText>
+        </NavItem>
+        <NavItem eventKey="/main/meubles">
+            <NavIcon >
+                <FaCouch style={{fontSize: '1.75em', color:"white"}} />
+            </NavIcon>
+            <NavText>
+                Meubles
+            </NavText>
+        </NavItem>
+        <NavItem eventKey="/main/bilan">
+            <NavIcon >
+                <FaChartLine style={{fontSize: '1.75em', color:"white"}}  />
+            </NavIcon>
+            <NavText>
+                Bilan
+            </NavText>
+            <NavItem eventKey="/main/bilan/journalier">
+                <NavText>
+                    Journalier
+                </NavText>
+            </NavItem>
+            <NavItem eventKey="/main/bilan/mensuelle">
+                <NavText>
+                    Mensuelle
+                </NavText>
+            </NavItem>
+            <NavItem eventKey="/main/bilan/annuelle">
+                <NavText>
+                    Annuelle
+                </NavText>
+            </NavItem>
+        </NavItem>
+    </SideNav.Nav>
+</SideNav>
         )
     }
 }
