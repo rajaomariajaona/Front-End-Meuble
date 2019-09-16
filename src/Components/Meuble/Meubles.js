@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Meuble from './Meuble';
-import { Col, Row,Button } from 'reactstrap';
+import { Col, Row,Button } from 'shards-react';
 import ModalMeuble from './ModalMeuble';
 import Format from '../Other/Format';
 
@@ -60,7 +60,7 @@ export default class Meubles extends Component {
             <Row>
                 {meubles}
             </Row>
-                <Button color="success" onClick={this.toggleModalMeubleAjout}> Ajouter </Button>
+                <Button theme="success" onClick={this.toggleModalMeubleAjout}> Ajouter </Button>
                 <ModalMeuble ajout={true} isOpen={this.state.modalMeubleAjout} onCancel={this.toggleModalMeubleAjout} onSubmit={this.postMeubles}/>
                 <ModalMeuble ajout={false} isOpen={this.state.modalMeubleModif} onCancel={this.toggleModalMeubleModif}/>
         </div>

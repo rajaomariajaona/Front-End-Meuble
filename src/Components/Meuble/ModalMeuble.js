@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody } from 'shards-react';
 import FormulaireMeuble from './FormulaireMeuble';
 import PropTypes from 'prop-types';
 export default class ModalMeuble extends Component {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Container, Button } from 'reactstrap';
+import { Container, Button } from 'shards-react';
 import TableauListe from './TableauListe';
 import ModalClient from './ModalClient';
 import Confirmation from '../Other/Confirmation';
@@ -146,7 +146,7 @@ export default class Clients extends Component {
 
                 <Confirmation text=" Voulez vous supprimer? " onNo={this.toggleModalConfirmation} onYes={this.deleteClient} isOpen={this.state.modalConfirmation} toggle={this.toggleModalConfirmation} />
 
-                <Button color="success" onClick={this.toggleModalClientAjout}>Ajouter</Button>
+                <Button theme="success" onClick={this.toggleModalClientAjout}>Ajouter</Button>
             </Container>
         )
     }

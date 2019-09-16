@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap';
+import { Button, Form, FormGroup, FormInput, FormSelect } from 'shards-react';
 import InputCustom from '../Other/InputCustom';
 import Masque from '../Other/Masque'
 import Format from '../Other/Format';
@@ -154,13 +154,13 @@ export default class FormulaireClient extends Component {
               <InputCustom onBlur={this.handleOnBlur} onChange={this.handleChange} invalid={!this.state.isValid.cp} errorMessage={this.state.errorMessage.cp}  placeholder="Code Postale" name="cp" label="Code Postale"/>
 
             <FormGroup>
-              <Label for="province">Provinces</Label>
-              <Input type="select" name="province" id="province">
+              <label for="province">Provinces</label>
+              <FormSelect name="province" id="province">
                 {provinces}
-              </Input>
+              </FormSelect>
             </FormGroup>
             
-            <Button disabled={this.state.error} type="submit" color="primary">{this.props.ajout ? "Ajouter" : "Modifier"}</Button>{' '}
+            <Button disabled={this.state.error} type="submit" theme="primary">{this.props.ajout ? "Ajouter" : "Modifier"}</Button>{' '}
             <Button onClick={this.props.onCancel} >Annuler</Button>
           </Form>
         )

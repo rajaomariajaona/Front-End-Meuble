@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Modal, ModalHeader, ModalBody } from 'reactstrap';
+import { Modal, ModalHeader, ModalBody } from 'shards-react';
 import FormulaireClient from './FormulaireClient';
 
 export default class ModalClient extends Component {

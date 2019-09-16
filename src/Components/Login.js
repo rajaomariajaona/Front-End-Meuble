@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Form, FormGroup, Label, Input, Button } from 'reactstrap';
+import { Card, Form, FormGroup, FormInput, Button } from 'shards-react';
  
  export default class Login extends Component {
      constructor(props) {
@@ -38,17 +38,17 @@ import { Card, Form, FormGroup, Label, Input, Button } from 'reactstrap';
                  <Form onSubmit={this.login} method="POST">
 
                      <FormGroup>
-                    <Label> Username </Label>
-                    <Input type="text" id="username" name="username"/>     
+                    <label> Username </label>
+                    <FormInput type="text" id="username" name="username"/>     
                      </FormGroup>
 
                      <FormGroup>
-                         <Label> Password </Label>
-                        <Input type="password" id="password" name="password" />
+                         <label> Password </label>
+                        <FormInput type="password" id="password" name="password" />
                      </FormGroup>
 
-                     <Button color="primary" type="submit" className="mx-2"> Login </Button>
-                     <Button color="danger" type="reset" className="mx-2"> Cancel </Button>
+                     <Button theme="primary" type="submit" className="mx-2"> Login </Button>
+                     <Button theme="danger" type="reset" className="mx-2"> Cancel </Button>
                  </Form>
              </Card>
          )

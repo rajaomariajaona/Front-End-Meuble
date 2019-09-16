@@ -1,5 +1,5 @@
  import React, { Component } from 'react'
- import { Table, ButtonGroup , Button } from 'reactstrap';
+ import { ButtonGroup , Button } from 'shards-react';
 import {FaTrashAlt, FaPenAlt} from 'react-icons/fa'
 import Format from '../Other/Format';
  export default class TableauListe extends Component {
@@ -14,14 +14,14 @@ import Format from '../Other/Format';
                 <td>{client.provinceClient.province}</td>
                 <td>
                 <ButtonGroup>
-                    <Button id={'del' + client.numClient} color="danger" onClick={this.props.onDeleteClient}> <span><FaTrashAlt/></span>  </Button>
-                    <Button id={'mod' + client.numClient} color="success" onClick={this.props.onModifyClient}> <span><FaPenAlt/></span>  </Button>
+                    <Button id={'del' + client.numClient} theme="danger" onClick={this.props.onDeleteClient}> <span><FaTrashAlt/></span>  </Button>
+                    <Button id={'mod' + client.numClient} theme="success" onClick={this.props.onModifyClient}> <span><FaPenAlt/></span>  </Button>
                 </ButtonGroup></td>
             </tr>
          );
 
          return (
-            <Table>
+            <table>
             <thead>
               <tr>
                 <th>Nom</th>
@@ -34,7 +34,7 @@ import Format from '../Other/Format';
             <tbody>
               {rows}
             </tbody>
-          </Table>
+          </table>
          )
      }
  }

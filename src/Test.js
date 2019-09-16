@@ -1,6 +1,6 @@
 import React from 'react'
 import Meuble from './Components/Meuble/Meuble';
-import { Col } from 'reactstrap';
+import { Col } from 'shards-react';
 import Format from './Components/Other/Format'
 export default class Test extends React.Component {
     constructor(props){

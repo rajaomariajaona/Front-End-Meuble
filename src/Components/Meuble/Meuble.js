@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Card, CardFooter, CardBody,
-    CardTitle, CardText, CardHeader  } from 'reactstrap';
+    CardTitle, CardText, CardHeader  } from 'shards-react';
 
 export default class Meuble extends Component {
     render() {

@@ -8,10 +8,10 @@ import {
     Nav,
     NavItem,
     NavLink,
-    UncontrolledDropdown,
+    Dropdown,
     DropdownToggle,
     DropdownMenu,
-    DropdownItem } from 'reactstrap';
+    DropdownItem } from 'shards-react';
 
 export default class Navigation extends Component {
     constructor(props) {
@@ -29,7 +29,7 @@ export default class Navigation extends Component {
       }
     render() {
         return (
-            <Navbar color="light" light expand="md">
+            <Navbar type="dark" theme="primary" expand="md">
             <NavbarBrand href="/">Meubles</NavbarBrand>
             <NavbarToggler onClick={this.toggle} />
             <Collapse isOpen={this.state.isOpen} navbar>
@@ -46,22 +46,25 @@ export default class Navigation extends Component {
                 <NavItem>
                   <NavLink href="/main/meubles/">Meubles</NavLink>
                 </NavItem>
-                <UncontrolledDropdown nav inNavbar>
+            <Dropdown
+              open={this.state.isOpen}
+              toggle={this.toggle}
+            >
                   <DropdownToggle nav caret>
                     Bilan
                   </DropdownToggle>
                   <DropdownMenu right>
                     <DropdownItem>
-                      Journalier
+                    <NavLink href="/main/bilan/journalier">Journalier</NavLink>
                     </DropdownItem>
                     <DropdownItem>
-                    Mensuelle
+                    <NavLink href="/main/bilan/mensuelle">Mensuelle</NavLink>
                     </DropdownItem>
                     <DropdownItem>
-                      Annuelle
+                    <NavLink href="/main/bilan/annuelle">Annuelle</NavLink>
                     </DropdownItem>
                   </DropdownMenu>
-                </UncontrolledDropdown>
+                </Dropdown>
               </Nav>
             </Collapse>
           </Navbar>
