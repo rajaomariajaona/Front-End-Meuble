@@ -125,7 +125,7 @@ export default class FormulaireMeuble extends Component {
             </FormGroup>
             
             <Button disabled={this.state.error} type="submit" theme="primary">{this.props.ajout ? "Ajouter" : "Modifier"}</Button>{' '}
-            <Button onClick={this.props.onCancel} >Annuler</Button>
+            <Button theme="secondary" onClick={this.props.onCancel} >Annuler</Button>
           </Form>
         )
     }

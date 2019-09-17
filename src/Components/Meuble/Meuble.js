@@ -3,19 +3,30 @@ import { Card, CardFooter, CardBody, CardTitle, CardText, CardHeader, Button, Co
     import { FaPenAlt }from 'react-icons/fa';
     import { FaTrashAlt } from 'react-icons/fa';
 import { Row } from 'react-flexbox-grid';
+import Confirmation from '../Other/Confirmation'
 export default class Meuble extends Component {
   constructor(props){
     super(props)
-    this.state = {}
+    this.state = {modalConfirmation:false}
+    this.toggleModalConfirmation = this.toggleModalConfirmation.bind(this)
   }
 
   deleteMeuble(){
-
+    this.toggleModalConfirmation()
+    var parameters = {
+        method: "DELETE"
+    }
+    var req = new Request('http://localhost:8000/api/meubles/'+ this.props.numserie, parameters);
+    fetch(req)
+    .then(response => {
+        if(response.status === 200){
+            window.location.reload()
+        }
+    });
   }
-  modifyMeuble(){
-    
+  toggleModalConfirmation(){
+    this.setState({modalConfirmation: this.state.modalConfirmation})
   }
-
     render() {
         return (
           <Card className="my-3 mx-3">
@@ -33,12 +44,13 @@ export default class Meuble extends Component {
                 <FaPenAlt onClick={this.props.onModify} id={this.props.numserie} className="icons text-success"/>
                   </Col>
                   <Col sm={6}>
-                <FaTrashAlt onClick={this.props.onDelete} id={this.props.numserie} className="icons text-danger"/>
+                <FaTrashAlt onClick={this.toggleModalConfirmation} id={this.props.numserie} className="icons text-danger"/>
                   </Col>
                 </Row>
                 </Col> 
               </Row>
             </CardFooter>
+            <Confirmation id="test" text=" Voulez vous supprimer? " onNo={this.toggleModalConfirmation} onYes={this.deleteClient} isOpen={this.state.modalConfirmation} toggle={this.toggleModalConfirmation} />
           </Card>
         )
     }

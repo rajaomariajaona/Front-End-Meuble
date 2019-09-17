@@ -11,27 +11,26 @@ export default class Meubles extends Component {
         this.state = {
             meubles : [],
             modalMeubleAjout: false,
-            ModalMeubleModif: false,
+            modalMeubleModif: false,
             loading: false,
-            modifyID: '',
-            deleteID: ''
+            modifyID: ''
         }
         this.getMeubles = this.getMeubles.bind(this)
         this.postMeubles = this.postMeubles.bind(this)
+        this.putMeubles = this.putMeubles.bind(this)
         this.toggleModalMeubleAjout = this.toggleModalMeubleAjout.bind(this)
         this.toggleModalMeubleModif = this.toggleModalMeubleModif.bind(this)
         this.addValue =this.addValue.bind(this)
     }
 
     addValue(){
-        this.setState({loading: true});
         var req = new Request('http://localhost:8000/api/meubles/'+this.state.modifyID);
         fetch(req)
         .then(response => {
             response.json().then(data =>{
                 document.querySelector('#numserie').value = data.numSerie
                 document.querySelector('#nom').value = data.nomMeuble
-                document.querySelector('#prix').value = data.prix
+                document.querySelector('#prix').value = (new Format()).formatPrix(data.prix.toString())
                 })
         });
     }
@@ -63,6 +62,24 @@ export default class Meubles extends Component {
           }
       });
     }
+    putMeubles(formData){
+        var parameters = {
+          method: "PUT",
+          headers:{
+            'Content-Type': 'application/json'
+          },
+            body: JSON.stringify(formData)
+      }
+      var req = new Request('http://localhost:8000/api/meubles/'+ this.state.modifyID, parameters);
+      fetch(req)
+      .then(response => {
+          if(response.status === 200){
+           this.getMeubles()
+            this.toggleModalMeubleModif()
+          }
+      });
+    }
+
     componentDidMount(){
         this.getMeubles()
     }
@@ -77,8 +94,11 @@ export default class Meubles extends Component {
         const meubles = this.state.meubles.map((value, index) => 
         <Col key={index} sm={10} md={3} >
         <Meuble onDelete={(e) => { this.setState({deleteID : e.currentTarget.id})}} 
-        onModify={(e) => { this.setState({modifyID : e.currentTarget.id});
-        this.toggleModalMeubleModif() } } 
+        onModify={(e) => {
+             this.setState({modifyID : e.currentTarget.id});
+                this.toggleModalMeubleModif() 
+                } 
+            } 
         categorie={value.categorie.categorie} prix={new Format().formatPrix(value.prix.toString())} nom={value.nomMeuble} numserie={value.numSerie}/></Col>)
 
         return (
@@ -89,8 +109,8 @@ export default class Meubles extends Component {
             </Row>)}
             
                 <Button className="shadow mb-4" theme="success" onClick={this.toggleModalMeubleAjout}> Ajouter </Button>
-                <ModalMeuble ajout={true} isOpen={this.state.modalMeubleAjout} onCancel={this.toggleModalMeubleAjout} onSubmit={this.postMeubles}/>
-                <ModalMeuble addValue={this.addValue} ajout={false} isOpen={this.state.modalMeubleModif} onCancel={this.toggleModalMeubleModif}/>
+                <ModalMeuble ajout isOpen={this.state.modalMeubleAjout} onCancel={this.toggleModalMeubleAjout} onSubmit={this.postMeubles}/>
+                <ModalMeuble addValue={this.addValue} ajout={false} isOpen={this.state.modalMeubleModif} onSubmit={this.putMeubles} onCancel={this.toggleModalMeubleModif}/>
         </div>
             
         )
