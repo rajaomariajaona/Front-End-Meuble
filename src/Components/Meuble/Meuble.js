@@ -9,6 +9,7 @@ export default class Meuble extends Component {
     super(props)
     this.state = {modalConfirmation:false}
     this.toggleModalConfirmation = this.toggleModalConfirmation.bind(this)
+    this.deleteMeuble = this.deleteMeuble.bind(this)
   }
 
   deleteMeuble(){
@@ -25,10 +26,11 @@ export default class Meuble extends Component {
     });
   }
   toggleModalConfirmation(){
-    this.setState({modalConfirmation: this.state.modalConfirmation})
+    this.setState({modalConfirmation: !this.state.modalConfirmation})
   }
     render() {
         return (
+          <div>
           <Card className="my-3 mx-3">
             <CardHeader> {this.props.numserie} </CardHeader>
             <CardBody>
@@ -50,8 +52,10 @@ export default class Meuble extends Component {
                 </Col> 
               </Row>
             </CardFooter>
-            <Confirmation id="test" text=" Voulez vous supprimer? " onNo={this.toggleModalConfirmation} onYes={this.deleteClient} isOpen={this.state.modalConfirmation} toggle={this.toggleModalConfirmation} />
+            
           </Card>
+          <Confirmation id="test" text=" Voulez vous supprimer? " onNo={this.toggleModalConfirmation} onYes={this.deleteMeuble} isOpen={this.state.modalConfirmation} toggle={this.toggleModalConfirmation} />
+          </div>
         )
     }
 }

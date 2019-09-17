@@ -52,6 +52,16 @@ export default class Navigation extends Component {
             <NavText>
                 Meubles
             </NavText>
+            <NavItem eventKey="/main/meubles/listes">
+                <NavText>
+                    Liste
+                </NavText>
+            </NavItem>
+            <NavItem eventKey="/main/meubles/categories">
+                <NavText>
+                    Categories
+                </NavText>
+            </NavItem>
         </NavItem>
         <NavItem eventKey="/main/bilan">
             <NavIcon >
