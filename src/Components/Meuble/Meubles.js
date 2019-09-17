@@ -12,13 +12,30 @@ export default class Meubles extends Component {
             meubles : [],
             modalMeubleAjout: false,
             ModalMeubleModif: false,
-            loading: false
+            loading: false,
+            modifyID: '',
+            deleteID: ''
         }
         this.getMeubles = this.getMeubles.bind(this)
         this.postMeubles = this.postMeubles.bind(this)
         this.toggleModalMeubleAjout = this.toggleModalMeubleAjout.bind(this)
         this.toggleModalMeubleModif = this.toggleModalMeubleModif.bind(this)
+        this.addValue =this.addValue.bind(this)
     }
+
+    addValue(){
+        this.setState({loading: true});
+        var req = new Request('http://localhost:8000/api/meubles/'+this.state.modifyID);
+        fetch(req)
+        .then(response => {
+            response.json().then(data =>{
+                document.querySelector('#numserie').value = data.numSerie
+                document.querySelector('#nom').value = data.nomMeuble
+                document.querySelector('#prix').value = data.prix
+                })
+        });
+    }
+
     getMeubles(){
         this.setState({loading: true});
         var req = new Request('http://localhost:8000/api/meubles');
@@ -57,7 +74,13 @@ export default class Meubles extends Component {
     }
     render() {
 
-        const meubles = this.state.meubles.map((value, index) => <Col key={index} sm={10} md={3} ><Meuble footerBgColor='#ff0000' categorie={value.categorie.categorie} prix={new Format().formatPrix(value.prix.toString())} nom={value.nomMeuble} numserie={value.numSerie}/></Col>)
+        const meubles = this.state.meubles.map((value, index) => 
+        <Col key={index} sm={10} md={3} >
+        <Meuble onDelete={(e) => { this.setState({deleteID : e.currentTarget.id})}} 
+        onModify={(e) => { this.setState({modifyID : e.currentTarget.id});
+        this.toggleModalMeubleModif() } } 
+        categorie={value.categorie.categorie} prix={new Format().formatPrix(value.prix.toString())} nom={value.nomMeuble} numserie={value.numSerie}/></Col>)
+
         return (
         <div>
             {this.state.loading? (<Loading/>):
@@ -67,7 +90,7 @@ export default class Meubles extends Component {
             
                 <Button className="shadow mb-4" theme="success" onClick={this.toggleModalMeubleAjout}> Ajouter </Button>
                 <ModalMeuble ajout={true} isOpen={this.state.modalMeubleAjout} onCancel={this.toggleModalMeubleAjout} onSubmit={this.postMeubles}/>
-                <ModalMeuble ajout={false} isOpen={this.state.modalMeubleModif} onCancel={this.toggleModalMeubleModif}/>
+                <ModalMeuble addValue={this.addValue} ajout={false} isOpen={this.state.modalMeubleModif} onCancel={this.toggleModalMeubleModif}/>
         </div>
             
         )

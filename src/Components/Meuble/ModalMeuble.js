@@ -8,7 +8,7 @@ export default class ModalMeuble extends Component {
             <Modal open={this.props.isOpen} toggle={this.props.toggle} className={this.props.className}>
           <ModalHeader>Modal title</ModalHeader>
           <ModalBody>
-            <FormulaireMeuble ajout={this.props.ajout} onCancel={this.props.onCancel} onSubmit={this.props.onSubmit} />
+            <FormulaireMeuble addValue={this.props.addValue} ajout={this.props.ajout} onCancel={this.props.onCancel} onSubmit={this.props.onSubmit} />
           </ModalBody>
         </Modal>
         )

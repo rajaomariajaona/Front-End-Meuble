@@ -1,34 +1,26 @@
 import React, { Component } from 'react'
 import { Container } from 'shards-react';
 import Navigation from './Navigation';
-import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+import { Router, Route, Switch} from 'react-router-dom';
 import Meubles from '../Meuble/Meubles';
 import Clients from '../Client/Clients';
 import Test from '../../Test';
 import Acceuil from './Acceuil';
 import Commandes from '../Commande/Commandes';
-
+import { createBrowserHistory } from 'history';
+import history from '../Other/History';
 export default class Main extends Component {
     constructor(props){
         super(props)
         this.state = { expanded: false }
+        this.history = createBrowserHistory()
     }
-    // componentDidMount(){
-    //     document.querySelector('#toggler').addEventListener('click', (e) => {
-    //         this.setState({
-    //             expanded: !this.state.expanded
-    //         })
-    //     })
-    // }
-    // componentWillUnmount(){
-    //     document.querySelector('#toggler').removeEventListener();
-    // }
     render() {
         return (
             <div>
-            <Navigation />
+            <Navigation/>
             <Container style={ this.state.expanded? {paddingLeft: 240} : {paddingLeft: 64}  }>
-            <Router>
+        <Router history={history}>
         <Switch>
         <Route exact path="/main/" component={Acceuil}/>
           <Route path="/main/meubles/" component={Meubles}/> 

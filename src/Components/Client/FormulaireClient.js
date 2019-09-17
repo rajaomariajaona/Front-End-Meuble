@@ -8,7 +8,9 @@ import Loading from '../Other/Loading';
 export default class FormulaireClient extends Component {
   constructor(props){
     super(props)
-    this.state = {provinces : [],
+    this.state = {
+      
+      provinces : [],
       isValid: {nom: true, prenom: true, tel: true, email: true, adresse: true, cp: true},
       errorMessage: {nom: "", prenom: "", tel: "", email: "", adresse: "", cp: ""},
     error: true,
@@ -20,6 +22,9 @@ export default class FormulaireClient extends Component {
     this.handleOnBlur = this.handleOnBlur.bind(this)
     this.format = new Format()
   }
+
+  
+
   isEmpty(value){
     if(value.trim() !== ""){
       this.setState({error:false})
@@ -135,6 +140,9 @@ putClient(formData){
     }
     
   }
+
+  
+
 
   handleChange(event){
     var target = event.target

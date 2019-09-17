@@ -1,21 +1,21 @@
 import React, { Component } from 'react'
-import './Navigation.css'
 import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import { FaHome, FaUsers, FaShoppingCart, FaCouch, FaChartLine } from 'react-icons/fa';
-import '@trendmicro/react-sidenav/dist/react-sidenav.css';
+import history from '../Other/History';
 
 export default class Navigation extends Component {
     constructor(props) {
         super(props);
         this.state = {
         };
+
       }
     render() {
         return (
-          <SideNav className="position-fixed" id="side" style={{backgroundColor : '#2196F3'}}
+          <SideNav className="position-fixed" id="side"
     onSelect={(selected) => {
         if(window.location.pathname !== selected){
-            window.location.pathname = selected
+            history.push(selected)
         }
     }}
 >
@@ -23,7 +23,7 @@ export default class Navigation extends Component {
     <SideNav.Nav  defaultSelected={window.location.pathname}>
         <NavItem  eventKey="/main/">
             <NavIcon >
-                <FaHome style={{fontSize: '1.75em', color:"white"}} />
+                <FaHome className="nav-icon" style={{fontSize: '1.75em', color:"white"}} />
             </NavIcon>
             <NavText>
                 Acceuil
@@ -31,7 +31,7 @@ export default class Navigation extends Component {
         </NavItem>
         <NavItem eventKey="/main/clients">
             <NavIcon >
-                <FaUsers style={{fontSize: '1.75em', color:"white"}} />
+                <FaUsers className="nav-icon"  style={{fontSize: '1.75em', color:"white"}} />
             </NavIcon>
             <NavText>
                 Clients 
@@ -39,7 +39,7 @@ export default class Navigation extends Component {
         </NavItem>
         <NavItem eventKey="/main/commandes">
             <NavIcon >
-                <FaShoppingCart style={{fontSize: '1.75em', color:"white"}} />
+                <FaShoppingCart className="nav-icon"  style={{fontSize: '1.75em', color:"white"}} />
             </NavIcon>
             <NavText>
                 Commandes
@@ -47,7 +47,7 @@ export default class Navigation extends Component {
         </NavItem>
         <NavItem eventKey="/main/meubles">
             <NavIcon >
-                <FaCouch style={{fontSize: '1.75em', color:"white"}} />
+                <FaCouch className="nav-icon"  style={{fontSize: '1.75em', color:"white"}} />
             </NavIcon>
             <NavText>
                 Meubles
@@ -55,7 +55,7 @@ export default class Navigation extends Component {
         </NavItem>
         <NavItem eventKey="/main/bilan">
             <NavIcon >
-                <FaChartLine style={{fontSize: '1.75em', color:"white"}}  />
+                <FaChartLine className="nav-icon"  style={{fontSize: '1.75em', color:"white"}}  />
             </NavIcon>
             <NavText>
                 Bilan

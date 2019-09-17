@@ -1,9 +1,10 @@
  import React, { Component } from 'react'
 import Format from '../Other/Format';
 import { Table, Column, HeaderCell, Cell } from 'rsuite-table'
-import '../../styles/rsuite-default.css';
+
 import { Button, ButtonGroup } from "shards-react";
 import {FaPenAlt, FaTrashAlt} from 'react-icons/fa'
+import Confirmation from '../Other/Confirmation';
  export default class TableauListe extends Component {
 
   constructor(props){
@@ -21,17 +22,49 @@ import {FaPenAlt, FaTrashAlt} from 'react-icons/fa'
             temp["cp"] = client.cpClient
             data.push(temp)
          })
-         console.log(data)
-    this.state = {lignes: data}
+    this.toggleModalConfirmation = this.toggleModalConfirmation.bind(this)
+    this.deleteClient = this.deleteClient.bind(this)
+    this.state = {lignes: data,
+      modalConfirmation : false,
+      deleteID: ''
+    }
   }
 
+  deleteClient(){
+    this.toggleModalConfirmation()
+    var parameters = {
+        method: "DELETE"
+    }
+    var req = new Request('http://localhost:8000/api/clients/'+ this.state.deleteID, parameters);
+    fetch(req)
+    .then(response => {
+        if(response.status === 200){
+            window.location.reload()
+        }
+    });
+}
+
+toggleModalConfirmation(e){
+  if(e){
+    this.setState({
+      modalConfirmation : !this.state.modalConfirmation,
+      deleteID: e.currentTarget.id.replace('del', '')
+    })
+  }else{
+    this.setState({
+      modalConfirmation : !this.state.modalConfirmation,
+    })
+  }
+}
+
+
     render() {
-      
-      
          return (
+           <div>
+           <Confirmation id="test" text=" Voulez vous supprimer? " onNo={this.toggleModalConfirmation} onYes={this.deleteClient} isOpen={this.state.modalConfirmation} toggle={this.toggleModalConfirmation} />
       <Table 
         data={this.state.lignes}
-        height={400}
+        height={600}
       >
       <Column width={200} sort resizable>
       <HeaderCell>Nom</HeaderCell>
@@ -70,7 +103,7 @@ import {FaPenAlt, FaTrashAlt} from 'react-icons/fa'
         return(
           <ButtonGroup>
             <Button className="btn-sm" id={'mod' + row.num} theme="success" onClick={this.props.onModifyClient}> <span><FaPenAlt/></span>  </Button>
-            <Button className="btn-sm" id={'del' + row.num} theme="danger" onClick={this.props.onDeleteClient}> <span><FaTrashAlt/></span>  </Button>
+            <Button className="btn-sm" id={'del' + row.num} theme="danger" onClick={this.toggleModalConfirmation}> <span><FaTrashAlt/></span>  </Button>
           </ButtonGroup>
         )
       }
@@ -78,6 +111,8 @@ import {FaPenAlt, FaTrashAlt} from 'react-icons/fa'
       </Cell>
       </Column> 
       </Table>
+      
+      </div>
          )
      }
  }
