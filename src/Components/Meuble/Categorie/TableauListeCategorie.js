@@ -87,7 +87,7 @@ toggleModalConfirmation(e){
 
         return(
           <ButtonGroup>
-            <Button className="btn-sm" id={'mod' + row.categorie} theme="success" onClick={this.props.onModifyCategorie}> <span><FaPenAlt/></span>  </Button>
+            <Button className="btn-sm" id={'mod' + row.categorie} theme="success" onClick={() => this.props.onModifyCategorie(row.categorie)}> <span><FaPenAlt/></span>  </Button>
             <Button className="btn-sm" id={'del' + row.categorie} theme="danger" onClick={this.toggleModalConfirmation}> <span><FaTrashAlt/></span>  </Button>
           </ButtonGroup>
         )

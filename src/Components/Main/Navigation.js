@@ -63,7 +63,7 @@ export default class Navigation extends Component {
                 </NavText>
             </NavItem>
         </NavItem>
-        <NavItem eventKey="/main/bilan">
+        {/* <NavItem eventKey="/main/bilan">
             <NavIcon >
                 <FaChartLine className="nav-icon"  style={{fontSize: '1.75em', color:"white"}}  />
             </NavIcon>
@@ -85,7 +85,7 @@ export default class Navigation extends Component {
                     Annuelle
                 </NavText>
             </NavItem>
-        </NavItem>
+        </NavItem> */}
     </SideNav.Nav>
 </SideNav>
         )

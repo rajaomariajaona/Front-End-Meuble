@@ -43,8 +43,8 @@ export default class FormulaireCategorie extends Component {
             </Col>
             <div className="w-100"></div>
             <Col sm={12}>
-                <Button className="mx-2" theme="primary">OK</Button>
-                <Button onClick={this.props.toggle} className="mx-2" theme="secondary">Annuler</Button>
+                <Button type="submit" className="mx-2" theme="primary">OK</Button>
+                <Button type="reset" onClick={this.props.toggle} className="mx-2" theme="secondary">Annuler</Button>
             </Col>
             </Form>
             </Row>
