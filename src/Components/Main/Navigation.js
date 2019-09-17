@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './Navigation.css'
 import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
 import { FaHome, FaUsers, FaShoppingCart, FaCouch, FaChartLine } from 'react-icons/fa';
-import '@trendmicro/react-sidenav/dist/react-sidenav.min.css';
+import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 
 export default class Navigation extends Component {
     constructor(props) {

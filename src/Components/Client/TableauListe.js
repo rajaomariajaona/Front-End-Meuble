@@ -1,30 +1,28 @@
  import React, { Component } from 'react'
 import Format from '../Other/Format';
 import { Table, Column, HeaderCell, Cell } from 'rsuite-table'
-import 'rsuite-table/lib/less/index.less';
-
+import '../../styles/rsuite-default.css';
+import { Button, ButtonGroup } from "shards-react";
+import {FaPenAlt, FaTrashAlt} from 'react-icons/fa'
  export default class TableauListe extends Component {
 
   constructor(props){
     super(props)
-    var columns = [
-      { headerName: 'Nom', field: 'nom'  },
-      { headerName: 'Prenom', field: 'prenom' },
-      { headerName: 'Telephone', field: 'tel' },
-      { headerName: 'Email', field: 'email' },
-      { headerName: 'Province', field: 'province' }
-    ];
     var data = []
          this.props.clients.forEach((client) =>{
             var temp = {}
+            temp["num"] = client.numClient
             temp["nom"] = client.nomClient
             temp["prenom"] = client.prenomClient
             temp["tel"] = new Format().formatTel(client.telClient)
             temp["email"] = client.emailClient
+            temp["adresse"] = client.adresseClient
             temp["province"] = client.provinceClient.province
+            temp["cp"] = client.cpClient
             data.push(temp)
          })
-    this.state = {colonnes: columns, lignes: data}
+         console.log(data)
+    this.state = {lignes: data}
   }
 
     render() {
@@ -35,18 +33,50 @@ import 'rsuite-table/lib/less/index.less';
         data={this.state.lignes}
         height={400}
       >
-      <Column width={100} sort fixed resizable>
+      <Column width={200} sort resizable>
       <HeaderCell>Nom</HeaderCell>
       <Cell dataKey="nom" />
       </Column>
-      <Column width={100} resizable>
+      <Column width={200} resizable>
       <HeaderCell>Prenom</HeaderCell>
       <Cell dataKey="prenom" />
       </Column>
-      <Column width={100} resizable>
+      <Column width={150} resizable>
       <HeaderCell>Telephone</HeaderCell>
       <Cell dataKey="tel" />
       </Column>
+      <Column width={300} resizable>
+      <HeaderCell>Email</HeaderCell>
+      <Cell dataKey="email" />
+      </Column>
+      <Column width={300} resizable>
+      <HeaderCell>Adresse</HeaderCell>
+      <Cell dataKey="adresse" />
+      </Column> 
+      <Column width={150} resizable>
+      <HeaderCell>Province</HeaderCell>
+      <Cell dataKey="province" />
+      </Column>
+      <Column width={100} resizable>
+      <HeaderCell>Code Postale</HeaderCell>
+      <Cell dataKey="cp" />
+      </Column>
+       <Column width={150} fixed="right" resizable>
+      <HeaderCell>Action</HeaderCell>
+      <Cell>
+
+      {row => {
+
+        return(
+          <ButtonGroup>
+            <Button className="btn-sm" id={'mod' + row.num} theme="success" onClick={this.props.onModifyClient}> <span><FaPenAlt/></span>  </Button>
+            <Button className="btn-sm" id={'del' + row.num} theme="danger" onClick={this.props.onDeleteClient}> <span><FaTrashAlt/></span>  </Button>
+          </ButtonGroup>
+        )
+      }
+      }
+      </Cell>
+      </Column> 
       </Table>
          )
      }

@@ -13,16 +13,16 @@ export default class Main extends Component {
         super(props)
         this.state = { expanded: false }
     }
-    componentDidMount(){
-        document.querySelector('#toggler').addEventListener('click', (e) => {
-            this.setState({
-                expanded: !this.state.expanded
-            })
-        })
-    }
-    componentWillUnmount(){
-        document.querySelector('#toggler').removeEventListener();
-    }
+    // componentDidMount(){
+    //     document.querySelector('#toggler').addEventListener('click', (e) => {
+    //         this.setState({
+    //             expanded: !this.state.expanded
+    //         })
+    //     })
+    // }
+    // componentWillUnmount(){
+    //     document.querySelector('#toggler').removeEventListener();
+    // }
     render() {
         return (
             <div>
