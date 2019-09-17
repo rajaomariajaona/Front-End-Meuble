@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
-import { FaHome, FaUsers, FaShoppingCart, FaCouch, FaChartLine } from 'react-icons/fa';
+import { FaHome, FaUsers, FaShoppingCart, FaCouch } from 'react-icons/fa';
 import history from '../Other/History';
 
 export default class Navigation extends Component {

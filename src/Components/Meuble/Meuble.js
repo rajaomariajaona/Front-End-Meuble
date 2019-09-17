@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Card, CardFooter, CardBody, CardTitle, CardText, CardHeader, Button, Col } from 'shards-react';
+import { Card, CardFooter, CardBody, CardTitle, CardText, CardHeader, Col } from 'shards-react';
     import { FaPenAlt }from 'react-icons/fa';
     import { FaTrashAlt } from 'react-icons/fa';
 import { Row } from 'react-flexbox-grid';
