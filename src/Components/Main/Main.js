@@ -10,6 +10,7 @@ import Commandes from '../Commande/Commandes';
 import { createBrowserHistory } from 'history';
 import history from '../Other/History';
 import Categories from '../Meuble/Categorie/Categories'
+import Contients from '../Contient/Contients';
 
 export default class Main extends Component {
     constructor(props){
@@ -35,6 +36,7 @@ export default class Main extends Component {
         <Route exact path="/main/" component={Acceuil}/>
           <Route path="/main/meubles/listes" component={Meubles}/> 
           <Route path="/main/meubles/categories" component={Categories}/> 
+          <Route path="/main/commandes/:numcommande" component={Contients}/>
           <Route path="/main/commandes/" component={Commandes}/>
           <Route path="/main/clients/" component={Clients}/> 
           <Route path="/main/test/" component={Test}/>
