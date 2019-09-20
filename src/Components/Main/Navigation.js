@@ -12,7 +12,7 @@ export default class Navigation extends Component {
       }
     render() {
         return (
-          <SideNav className="position-fixed" id="side"
+          <SideNav className="shadow position-fixed" id="side"
     onSelect={(selected) => {
         if(window.location.pathname !== selected){
             history.push(selected)
@@ -20,8 +20,8 @@ export default class Navigation extends Component {
     }}
 >
     <SideNav.Toggle id="toggler" />
-    <SideNav.Nav  defaultSelected={window.location.pathname}>
-        <NavItem  eventKey="/main/">
+    <SideNav.Nav  defaultSelected={(window.location.pathname[window.location.pathname.length - 1] === "/") ? window.location.pathname.substring(0, window.location.pathname.length - 1) : window.location.pathname}>
+        <NavItem  eventKey="/main">
             <NavIcon >
                 <FaHome className="nav-icon" style={{fontSize: '1.75em', color:"white"}} />
             </NavIcon>

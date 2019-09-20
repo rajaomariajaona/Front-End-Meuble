@@ -1,40 +1,29 @@
 import React, { Component } from 'react'
 import { Col, Button, FormSelect } from 'shards-react';
 import DatePicker from 'react-datepicker'
-import Masque from '../Other/Masque';
 import { Row , Form} from 'shards-react';
 import { fr } from 'date-fns/locale';
 
 export default class FormulaireCommande extends Component {
     constructor(props){
         super(props)
-        this.state = {startDate: new Date(),error: false, messageError: '',clients: []}
-        this.handleChange = this.handleChange.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
-    }
-    handleChange(event){
-        var target = event.target
-        switch (target.id) {
-            case "categorie":
-            target.value = new Masque().capitalize(target.value)
-            break;
-            default:
-                break;
+        this.state = {
+            startDate: new Date(),
+            error: false,
+            messageError: '',
+            clients: []
         }
-        
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
     handleSubmit(event){
         this.setState({error: false})
         event.preventDefault()
         var formData = Object.fromEntries(new FormData(event.target))
-        if(formData.categorie.trim() === ""){
-            this.setState({error : true, messageError: 'Champs vide'})
-        }
         if(!this.state.error){
             this.props.onSubmit(formData)
         }
     }
-    getClient(){
+    getClients(){
         this.setState({loading: true})
         var req = new Request('http://localhost:8000/api/clients');
         fetch(req)
@@ -46,7 +35,7 @@ export default class FormulaireCommande extends Component {
     }
 
     componentDidMount(){
-        this.getClient()
+        this.getClients()
     }
 
     render() {
@@ -66,7 +55,7 @@ export default class FormulaireCommande extends Component {
                     <DatePicker locale={fr} dateFormat="dd/MM/yyyy" maxDate={new Date()} selected={this.state.startDate} onChange={date => {this.setState({startDate: date})}} className="form-control" />
                 </Col>
                 <Col sm={2}>
-                    <Button type="submit" className="mx-2" theme="primary">Cree</Button>
+                    <Button type="submit" className="mx-2" theme="primary">{this.props.ajout? "Cree" : "Modifier"}</Button>
                 </Col>
             </Row>
             

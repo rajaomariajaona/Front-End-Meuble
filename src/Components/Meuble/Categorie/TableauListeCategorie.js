@@ -76,7 +76,7 @@ toggleModalConfirmation(e){
         height={400}
       >
       <Column width={window.innerWidth - 345} sort resizable>
-      <HeaderCell>Nom</HeaderCell>
+      <HeaderCell>Categorie</HeaderCell>
       <Cell dataKey="categorie" />
       </Column>
        <Column width={150} fixed="right" resizable>

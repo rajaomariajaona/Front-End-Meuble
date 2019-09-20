@@ -1,16 +1,16 @@
 import React, { Component } from 'react'
-import { Container } from 'shards-react';
+import { Container, Row } from 'shards-react';
 import Navigation from './Navigation';
 import { Router, Route, Switch} from 'react-router-dom';
 import Meubles from '../Meuble/Meubles';
-import Clients from '../Client/Clients';
+import Clients from '../Clients/Clients';
 import Test from '../../Test';
-import Acceuil from './Acceuil';
-import Commandes from '../Commande/Commandes';
+import Acceuil from './Acceuil'
 import { createBrowserHistory } from 'history';
 import history from '../Other/History';
 import Categories from '../Meuble/Categorie/Categories'
 import Contients from '../Contient/Contients';
+import Commandes from '../Commandes/Commandes';
 
 export default class Main extends Component {
     constructor(props){
@@ -29,7 +29,10 @@ export default class Main extends Component {
     render() {
         return (
             <div>
-            <Navigation/>
+            <Row className="bg-secondary shadow" style={{height: 100}}>
+
+            </Row>
+            <Navigation />
             <Container style={ this.state.expanded? {paddingLeft: 240} : {paddingLeft: 64}  }>
         <Router history={history}>
         <Switch>

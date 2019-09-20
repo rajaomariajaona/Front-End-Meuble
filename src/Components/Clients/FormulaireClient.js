@@ -9,7 +9,6 @@ export default class FormulaireClient extends Component {
   constructor(props){
     super(props)
     this.state = {
-      
       provinces : [],
       isValid: {nom: true, prenom: true, tel: true, email: true, adresse: true, cp: true},
       errorMessage: {nom: "", prenom: "", tel: "", email: "", adresse: "", cp: ""},
@@ -36,41 +35,6 @@ export default class FormulaireClient extends Component {
     }
 }
 
-postClient(formData){
-  var parameters = {
-    method: "POST",
-    headers:{
-      'Content-Type': 'application/json'
-    },
-      body: JSON.stringify(formData)
-}
-var req = new Request('http://localhost:8000/api/clients', parameters);
-fetch(req)
-.then(response => {
-    if(response.status === 201){
-      window.location.replace('/main/clients')
-      this.getClient();
-    }
-});
-}
-
-putClient(formData){
-  var parameters = {
-      method: "PUT",
-      headers:{
-          'Content-Type': 'application/json'
-        },
-      body: JSON.stringify(formData)
-  }
-  var req = new Request(this.link, parameters);
-  fetch(req)
-  .then(response => {
-      if(response.status === 200){
-        window.location.pathname= "/main/clients"
-      }
-  });
-}
-
   handleSubmit(event){
     event.preventDefault()
     var error = false
@@ -90,11 +54,7 @@ putClient(formData){
     }
     if(!error){
       formData.tel = this.format.unformatTel(formData.tel)
-      if(this.props.ajout){
-        this.postClient(formData)
-      }else{
-        this.putClient(formData)
-      }
+      this.props.onSubmit(formData)
     }
   }
   isError(test: Boolean, fieldName: String, message: String) {
@@ -140,10 +100,6 @@ putClient(formData){
     }
     
   }
-
-  
-
-
   handleChange(event){
     var target = event.target
     var formData =  Object.fromEntries(new FormData(document.querySelector("#formulaire-client")))
@@ -253,7 +209,7 @@ putClient(formData){
 
             
             <Button className="mx-2" disabled={this.state.error} type="submit" theme="primary">{this.props.ajout ? "Ajouter" : "Modifier"}</Button>
-            <Button  className="mx-2" theme="secondary" href={this.props.hrefCancel} onClick={this.props.onCancel} >Annuler</Button>
+            <Button type="reset" className="mx-2" theme="secondary" onClick={this.props.onCancel} >Annuler</Button>
               </Row>
           </Form>
           </div>)
