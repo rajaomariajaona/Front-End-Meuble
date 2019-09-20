@@ -24,11 +24,11 @@ export default class Commandes extends Component {
                 data.forEach((commande) =>{
                     var temp = {}
                     temp["num"] = commande.numCommande
-                    temp["nomclient"] = commande.clientNumClient.numClient
-                    temp["date"] = commande.dateCommande
+                    temp["nomclient"] = commande.clientNumClient.nomClient + " " + commande.clientNumClient.prenomClient
+                    temp["date"] = new Format().formatDate(commande.dateCommande)
                     commandes.push(temp)
                 })
-                    this.setState({commandes: data, loading: false});
+                    this.setState({dataCommandes: commandes, loading: false});
                 })
         });
     }
@@ -131,7 +131,6 @@ refresh(){
 }
 // fin evenement Affichage
 
-
     constructor(props){
         super(props)
         this.state = { 
@@ -151,6 +150,8 @@ refresh(){
 
     componentDidMount(){
         this.getCommandes()
+        console.log(this.state.dataCommandes);
+        
     }
     render() {
         return (

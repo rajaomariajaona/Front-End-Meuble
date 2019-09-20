@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import Format from '../Other/Format';
 import { Table, Column, HeaderCell, Cell } from 'rsuite-table'
 
 import { Button, ButtonGroup } from "shards-react";
@@ -26,11 +25,11 @@ export default class ListeCommandes extends Component {
        <HeaderCell>#</HeaderCell>
        <Cell dataKey="num" />
        </Column>
-       <Column width={200} resizable>
+       <Column width={400} resizable>
        <HeaderCell>Nom</HeaderCell>
        <Cell dataKey="nomclient" />
        </Column>
-       <Column width={200} resizable>
+       <Column width={250} resizable>
        <HeaderCell>Date</HeaderCell>
        <Cell dataKey="date" />
        </Column>
