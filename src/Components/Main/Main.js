@@ -9,7 +9,6 @@ import Acceuil from './Acceuil'
 import { createBrowserHistory } from 'history';
 import history from '../Other/History';
 import Categories from '../Categories/Categories'
-import Contients from '../Contient/Contients';
 import Commandes from '../Commandes/Commandes';
 
 export default class Main extends Component {

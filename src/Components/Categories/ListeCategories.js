@@ -26,8 +26,8 @@ import { PropTypes } from 'prop-types';
 
         return(
           <ButtonGroup>
-            <Button className="btn-sm" id={row.num} theme="success" onClick={this.props.onModifyCategorie}> <span><FaPenAlt/></span>  </Button>
-            <Button className="btn-sm" id={row.num} theme="danger" onClick={this.props.onDeleteCategorie}> <span><FaTrashAlt/></span>  </Button>
+            <Button className="btn-sm" id={row.categorie} theme="success" onClick={this.props.onModifyCategorie}> <span><FaPenAlt/></span>  </Button>
+            <Button className="btn-sm" id={row.categorie} theme="danger" onClick={this.props.onDeleteCategorie}> <span><FaTrashAlt/></span>  </Button>
           </ButtonGroup>
         )
       }

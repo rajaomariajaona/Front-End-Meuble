@@ -58,7 +58,7 @@ export default class ListeCommandes extends Component {
 }
 
 ListeCommandes.propTypes = {
-  commandes: PropTypes.object,
+  commandes: PropTypes.array,
   loading: PropTypes.bool,
   onDeleteCommande: PropTypes.func,
   onModifyCommande: PropTypes.func,

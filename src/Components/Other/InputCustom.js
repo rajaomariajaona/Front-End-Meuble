@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { FormGroup, FormInput, FormFeedback } from 'shards-react';
+import { PropTypes } from 'prop-types';
 export default class InputCustom extends Component {
 
     render() {
@@ -11,6 +12,18 @@ export default class InputCustom extends Component {
             </FormGroup>
         )
     }
+}
+
+InputCustom.propTypes = {
+  errorMessage: PropTypes.string,
+  invalid: PropTypes.bool,
+  label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func,
+  placeholder: PropTypes.string,
+  type: PropTypes.string,
+  valid: PropTypes.bool
 }
 InputCustom.defaultProps={
     type: "text",

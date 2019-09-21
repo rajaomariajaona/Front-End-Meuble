@@ -10,7 +10,7 @@ import { Route } from 'react-router-dom';
 import ListeCommandes from './ListeCommandes';
 import { FaPlus } from 'react-icons/fa';
 import { Button } from 'shards-react'
-import Contients from '../Contient/Contients';
+import Contients from '../Contients/Contients';
 
 export default class Commandes extends Component {
 // Access webservice

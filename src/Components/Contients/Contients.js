@@ -1,11 +1,15 @@
 import React, { Component } from 'react'
 import Loading from '../Other/Loading';
-import {Row ,Col} from 'shards-react'
+import {Row ,Col, Button} from 'shards-react'
 import Format from '../Other/Format';
 import ListeCommandesMeubles from './ListeCommandesMeubles';
 import TableContient from './TableContient'
 import { PropTypes } from 'prop-types';
 import history from '../Other/History';
+import { Router, Switch, Route } from 'react-router-dom';
+import Confirmation from '../Other/Confirmation';
+import { FaPlus } from 'react-icons/fa';
+import FormulaireCommandesMeubles from './FormulaireCommandesMeubles';
 export default class Contients extends Component {
 
 // Access webservice
@@ -16,7 +20,6 @@ export default class Contients extends Component {
         fetch(req)
         .then(response => {
             response.json().then(data =>{
-                
                 var commandesMeubles = []
                 data.forEach((commande) =>{
                     var temp = {}
@@ -113,12 +116,12 @@ handleAjout(formData){
 
 // evenements Affichage
 goToAjout(){
-    history.replace("/main/commandes/ajout")
+    history.replace("/main/commandes/contients/" + this.props.match.params.num + "/ajout")
 }
 
 redirect(){
     history.push('/temp')
-    history.replace('/main/commandes')
+    history.replace('/main/commandes/contient/' + this.props.match.params.num)
 }
 toggleModalConfirmation(){
     this.setState({modalConfirmation: !this.state.modalConfirmation})
@@ -160,7 +163,18 @@ refresh(){
     render() {
         return (
                 <div>
-                <ListeCommandesMeubles loading={this.state.loading} commandesMeubles={this.state.dataCommandesMeubles} />
+                <Router history={history}>
+                    <Switch>
+                        <Route exact path="/main/commandes/contients/:num" component={() => (
+                            <div>
+            <Button className="m-3 p-2 shadow-sm" style={{float: 'right'}} theme="success" onClick={this.goToAjout}> <FaPlus style={{fontWeight: 'bold', fontSize: '1.5em'}} /> </Button>            
+            <ListeCommandesMeubles loading={this.state.loading} onDeleteCommande={this.handleSuppression} onModifyCommande={this.handleModification} onPanierCommande={this.handlePanier}  commandesMeubles={this.state.dataCommandesMeubles}/></div>)} />
+                        <Route path="/main/commandes/contients/:num/ajout" component={() =><FormulaireCommandesMeubles ajout onCancel={this.redirect} onSubmit={this.handleAjout}/>}/>
+
+                        <Route path="/main/commandes/contients/:num/modif" component={() =><FormulaireCommandesMeubles ajout={false} onCancel={this.redirect} onSubmit={this.modificationConfirmed}/>}/>
+                    </Switch>
+                </Router> 
+                <Confirmation text=" Voulez vous supprimer? " onNo={this.toggleModalConfirmation} onYes={() => {this.deleteConfirmed(this.state.deleteID)} } isOpen={this.state.modalConfirmation} toggle={this.toggleModalConfirmation} />
                 </div>
         )
     }

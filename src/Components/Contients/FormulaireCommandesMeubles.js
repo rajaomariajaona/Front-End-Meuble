@@ -1,11 +1,38 @@
 import React, { Component } from 'react'
-import { Col, Button } from 'shards-react';
+import { Col, Button, FormSelect } from 'shards-react';
 import InputCustom from '../Other/InputCustom';
 import Masque from '../Other/Masque';
 import { Row , Form} from 'shards-react';
 import { PropTypes } from 'prop-types';
 
-export default class FormulaireCategorie extends Component {
+export default class FormulaireCommandesMeubles extends Component {
+
+    getMeubles(){
+        this.setState({loading: true})
+        var req = new Request('http://localhost:8000/api/meubles');
+        fetch(req)
+        .then(response => {
+            if(response.status === 200){
+                response.json().then(data =>{
+                    var meubles = []
+                    data.forEach((meuble) =>{
+                        var temp = {}
+                        temp["num"] = meuble.numSerie
+                        temp["nom"] = meuble.nomMeuble
+                        temp["prix"] = new Format().formatPrix(meuble.prix.toString()) + " Ar"
+                        temp["quantite"] = meuble.quantiteStock
+                        temp["categorie"] = meuble.categorie.categorie
+                        meubles.push(temp)
+                    })
+                    this.setState({loading: false, dataMeubles: meubles});
+                    return 1
+                })
+            }else{
+                return Number(response.status)
+            }
+        });
+    }
+
     constructor(props){
         super(props)
         this.state = {error: false, messageError: ''}
@@ -13,6 +40,7 @@ export default class FormulaireCategorie extends Component {
         this.handleSubmit = this.handleSubmit.bind(this)
     }
     componentDidMount() {
+
         if(!this.props.ajout){
             var req
               this.setState({loading: true})
@@ -53,13 +81,21 @@ export default class FormulaireCategorie extends Component {
         }
     }
     render() {
+        const meubles = 
         return (
             <Row className="my-4">
             <Form onSubmit={this.handleSubmit}>
 
-            <Col sm={12}>
-                <InputCustom invalid={this.state.error} onChange={this.handleChange}  placeholder="Categorie" name="categorie" label="Categorie" errorMessage={this.state.messageError}/>
+            <Col sm={12} md={6}>
+            <label htmlFor="meuble">Meubles : </label>
+              <FormSelect name="meuble" id="meuble">
+                {meubles}
+              </FormSelect>
             </Col>
+            <Col sm={12} md={6}>
+                <InputCustom />
+            </Col>
+
             <div className="w-100"></div>
             <Col sm={12}>
                 <Button type="submit" className="mx-2" theme="primary">OK</Button>
@@ -71,7 +107,7 @@ export default class FormulaireCategorie extends Component {
     }
 }
 
-FormulaireCategorie.propTypes = {
+FormulaireCommandesMeubles.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired
 }
