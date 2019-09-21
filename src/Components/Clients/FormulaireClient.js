@@ -4,6 +4,7 @@ import InputCustom from '../Other/InputCustom';
 import Masque from '../Other/Masque'
 import Format from '../Other/Format';
 import Loading from '../Other/Loading';
+import { PropTypes } from 'prop-types';
 
 export default class FormulaireClient extends Component {
   constructor(props){
@@ -216,4 +217,10 @@ export default class FormulaireClient extends Component {
         )
     }
 }
-FormulaireClient.defaultProps = {ajout : true, addValue: function(){}}
+
+FormulaireClient.propTypes = {
+  ajout: PropTypes.bool,
+  onCancel: PropTypes.func,
+  onSubmit: PropTypes.func
+}
+FormulaireClient.defaultProps = {ajout : true}

@@ -10,6 +10,7 @@ import { Route } from 'react-router-dom';
 import ListeCommandes from './ListeCommandes';
 import { FaPlus } from 'react-icons/fa';
 import { Button } from 'shards-react'
+import Contients from '../Contient/Contients';
 
 export default class Commandes extends Component {
 // Access webservice
@@ -25,7 +26,7 @@ export default class Commandes extends Component {
                     var temp = {}
                     temp["num"] = commande.numCommande
                     temp["nomclient"] = commande.clientNumClient.nomClient + " " + commande.clientNumClient.prenomClient
-                    temp["date"] = new Format().formatDate(commande.dateCommande)
+                    temp["date"] = new Format().printDate(commande.dateCommande)
                     commandes.push(temp)
                 })
                     this.setState({dataCommandes: commandes, loading: false});
@@ -33,7 +34,7 @@ export default class Commandes extends Component {
         });
     }
 
-    postCommandes(formData, ajoutOk){
+    postCommande(formData, ajoutOk){
         var parameters = {
             method: "POST",
             headers:{
@@ -50,7 +51,7 @@ export default class Commandes extends Component {
         });
     }
 
-    deleteCommandes(id, deleteOk){
+    deleteCommande(id, deleteOk){
         this.setState({loading: true})
         var parameters = {
             method: "DELETE",
@@ -66,7 +67,7 @@ export default class Commandes extends Component {
                 }
         });
     }
-    putCommandes(id, formData,modifyOk){
+    putCommande(id, formData,modifyOk){
     var parameters = {
         method: "PUT",
         headers:{
@@ -86,6 +87,11 @@ export default class Commandes extends Component {
 //fin access webservice
 
 // evenements CRUD
+handlePanier(event){
+    var num = event.currentTarget.id
+    history.replace("/main/commandes/contients/"+num)
+}
+
 handleModification(event){
     var num = event.currentTarget.id
     this.setState({modifyID: num})
@@ -99,16 +105,16 @@ handleSuppression(event){
 }
 
 modificationConfirmed(formData){
-    this.putCommandes(this.state.modifyID, formData, this.redirect)
+    this.putCommande(this.state.modifyID, formData, this.redirect)
 }
 
 deleteConfirmed(id){
     this.toggleModalConfirmation()
-    this.deleteCommandes(id, this.refresh);
+    this.deleteCommande(id, this.refresh);
 }
 
 handleAjout(formData){
-    this.postCommandes(formData, this.refresh);
+    this.postCommande(formData, this.refresh);
 }
 
 // fin evenements CRUD
@@ -140,18 +146,26 @@ refresh(){
             loading: true,
             modalConfirmation : false
         }
-        this.format = new Format()
+        this.getCommandes = this.getCommandes.bind(this)
+        this.postCommande = this.postCommande.bind(this)
+        this.putCommande = this.putCommande.bind(this)
+        this.deleteCommande = this.deleteCommande.bind(this)
+
+        this.handlePanier = this.handlePanier.bind(this)
         this.handleSuppression = this.handleSuppression.bind(this)
         this.handleModification = this.handleModification.bind(this)
-        this.handleAjout = this.handleAjout.bind(this)
-        this.goToAjout = this.goToAjout.bind(this)
         this.modificationConfirmed = this.modificationConfirmed.bind(this)
+        this.deleteConfirmed = this.deleteConfirmed.bind(this)
+        this.handleAjout = this.handleAjout.bind(this)
+
+        this.toggleModalConfirmation = this.toggleModalConfirmation.bind(this)
+        this.goToAjout = this.goToAjout.bind(this)
+        this.refresh = this.refresh.bind(this)
+        this.redirect = this.redirect.bind(this)
     }
 
     componentDidMount(){
         this.getCommandes()
-        console.log(this.state.dataCommandes);
-        
     }
     render() {
         return (
@@ -163,12 +177,11 @@ refresh(){
 
                             <div>
             <Button className="m-3 p-2 shadow-sm" style={{float: 'right'}} theme="success" onClick={this.goToAjout}> <FaPlus style={{fontWeight: 'bold', fontSize: '1.5em'}} /> </Button>            
-            <ListeCommandes loading={this.state.loading} onDeleteClient={this.handleSuppression} onModifyClient={this.handleModification}  commandes={this.state.dataCommandes}/></div>)} />
-
+            <ListeCommandes loading={this.state.loading} onDeleteCommande={this.handleSuppression} onModifyCommande={this.handleModification} onPanierCommande={this.handlePanier}  commandes={this.state.dataCommandes}/></div>)} />
+                        <Route path="/main/commandes/contients/:num" component={Contients}/>
                         <Route path="/main/commandes/ajout" component={() =><FormulaireCommande ajout onCancel={this.redirect} onSubmit={this.handleAjout}/>}/>
 
                         <Route path="/main/commandes/modif" component={() =><FormulaireCommande ajout={false} onCancel={this.redirect} onSubmit={this.modificationConfirmed}/>}/>
-
                     </Switch>
                 </Router> 
                 <Confirmation text=" Voulez vous supprimer? " onNo={this.toggleModalConfirmation} onYes={() => {this.deleteConfirmed(this.state.deleteID)} } isOpen={this.state.modalConfirmation} toggle={this.toggleModalConfirmation} />

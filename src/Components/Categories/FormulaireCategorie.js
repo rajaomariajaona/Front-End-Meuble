@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import { Col, Button } from 'shards-react';
-import InputCustom from '../../Other/InputCustom';
-import Masque from '../../Other/Masque';
+import InputCustom from '../Other/InputCustom';
+import Masque from '../Other/Masque';
 import { Row , Form} from 'shards-react';
+import { PropTypes } from 'prop-types';
 
 export default class FormulaireCategorie extends Component {
     constructor(props){
@@ -44,13 +45,15 @@ export default class FormulaireCategorie extends Component {
             <div className="w-100"></div>
             <Col sm={12}>
                 <Button type="submit" className="mx-2" theme="primary">OK</Button>
-                <Button type="reset" onClick={this.props.toggle} className="mx-2" theme="secondary">Annuler</Button>
+                <Button type="reset" onClick={this.props.onCancel} className="mx-2" theme="secondary">Annuler</Button>
             </Col>
             </Form>
             </Row>
-            
-            
-
         )
     }
+}
+
+FormulaireCategorie.propTypes = {
+  onCancel: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired
 }

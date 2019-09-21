@@ -148,11 +148,21 @@ export default class Clients extends Component {
             loading: true,
             modalConfirmation : false,
         }
+        this.getClients = this.getClients.bind(this)
+        this.postClient = this.postClient.bind(this)
+        this.putClient = this.putClient.bind(this)
+        this.deleteClient = this.deleteClient.bind(this)
+
         this.handleSuppression = this.handleSuppression.bind(this)
         this.handleModification = this.handleModification.bind(this)
-        this.handleAjout = this.handleAjout.bind(this)
-        this.goToAjout = this.goToAjout.bind(this)
         this.modificationConfirmed = this.modificationConfirmed.bind(this)
+        this.deleteConfirmed = this.deleteConfirmed.bind(this)
+        this.handleAjout = this.handleAjout.bind(this)
+
+        this.toggleModalConfirmation = this.toggleModalConfirmation.bind(this)
+        this.goToAjout = this.goToAjout.bind(this)
+        this.refresh = this.refresh.bind(this)
+        this.redirect = this.redirect.bind(this)
     }
     componentDidMount() {        
         this.getClients();        
@@ -164,8 +174,8 @@ export default class Clients extends Component {
                     <Switch>
                         <Route exact path="/main/clients" component={() => (
                             <div>
-            <Button className="m-3 p-2 shadow-sm" style={{float: 'right'}} theme="success" onClick={this.goToAjout}> <FaPlus style={{fontWeight: 'bold', fontSize: '1.5em'}} /> </Button>            
-            <ListeClients loading={this.state.loading} onDeleteClient={this.handleSuppression} onModifyClient={this.handleModification}  clients={this.state.dataClients}/></div>)} />
+                            <Button className="m-3 p-2 shadow-sm" style={{float: 'right'}} theme="success" onClick={this.goToAjout}> <FaPlus style={{fontWeight: 'bold', fontSize: '1.5em'}} /> </Button>            
+                            <ListeClients loading={this.state.loading} onDeleteClient={this.handleSuppression} onModifyClient={this.handleModification}  clients={this.state.dataClients}/></div>)} />
 
                         <Route path="/main/clients/ajout" component={() =><FormulaireClient ajout onCancel={this.redirect} onSubmit={this.handleAjout}/>}/>
 

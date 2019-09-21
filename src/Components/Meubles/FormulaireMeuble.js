@@ -26,7 +26,26 @@ export default class FormulaireMeuble extends Component {
                 })
     });
     if(!this.props.ajout){
-      this.props.addValue()
+      document.querySelector('#categorie').addEventListener('change', () => {
+        this.setState({error: false})
+      })
+      this.setState({loading: true})
+      var link = window.location.href.replace("3000", "8000").replace("main", "api").replace("/modif", "").replace("/listes", "")
+
+      req = new Request(link);
+      fetch(req)
+      .then(response => {
+        var meuble
+          response.json().then(data =>{ 
+            meuble = data
+            this.setState({loading: false})
+          }).then(() =>{
+            document.querySelector("#numserie").value = meuble.numSerie
+            document.querySelector("#nom").value = meuble.nomMeuble
+            document.querySelector("#prix").value = new Format().formatPrix(meuble.prix.toString())
+            document.querySelector("#categorie").value = meuble.categorie.categorie
+          })
+      });
     }
   }
   handleSubmit(event){
@@ -130,7 +149,7 @@ export default class FormulaireMeuble extends Component {
         )
     }
 }
-FormulaireMeuble.defaultProps = {ajout : true, addValue: function(){}}
+FormulaireMeuble.defaultProps = {ajout : true}
 FormulaireMeuble.propTypes = {
   onSubmit : PropTypes.func,
   ajout: PropTypes.bool,

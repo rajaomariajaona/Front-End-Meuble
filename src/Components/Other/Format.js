@@ -69,8 +69,19 @@ export default class Format{
         }
         return telString
     }
-    formatDate(dateString){
-        var options = { weekday: 'short', year: 'numeric', month: 'short', day: '2-digit' }
+    printDate(dateString){
+        var options = { weekday: 'long', year: 'numeric', month: 'long', day: '2-digit' }
         return new Date(dateString).toLocaleDateString('FR-fr',options)
+    }
+    unformatDate(dateString){
+        var array = dateString.split('/')
+        var res = ''
+        array.forEach((value, index) => {
+            res = value + '-' +  res
+        })
+        return res.substring(0,res.length - 1)
+    }
+    formatDate(dateString){
+        return new Date(dateString).toLocaleDateString('fr')
     }
 }
