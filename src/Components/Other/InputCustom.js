@@ -7,7 +7,7 @@ export default class InputCustom extends Component {
         return (
             <FormGroup>
               <label htmlFor={(this.props.name).toLowerCase()}>{this.props.label}</label>
-              <FormInput onBlur={this.props.onBlur} onChange={this.props.onChange} valid={this.props.valid} invalid={this.props.invalid} type={this.props.type} name={(this.props.name).toLowerCase()} id={(this.props.name).toLowerCase()} placeholder={this.props.placeholder} />
+              <FormInput min={this.props.min} max={this.props.max} onBlur={this.props.onBlur} onChange={this.props.onChange} valid={this.props.valid} invalid={this.props.invalid} type={this.props.type} name={(this.props.name).toLowerCase()} id={(this.props.name).toLowerCase()} placeholder={this.props.placeholder} />
               <FormFeedback>{this.props.errorMessage}</FormFeedback>
             </FormGroup>
         )
@@ -23,7 +23,9 @@ InputCustom.propTypes = {
   onChange: PropTypes.func,
   placeholder: PropTypes.string,
   type: PropTypes.string,
-  valid: PropTypes.bool
+  valid: PropTypes.bool,
+  max: PropTypes.number,
+  min: PropTypes.number
 }
 InputCustom.defaultProps={
     type: "text",

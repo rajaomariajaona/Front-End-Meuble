@@ -23,6 +23,7 @@ export default class Contients extends Component {
                 var commandesMeubles = []
                 data.forEach((commande) =>{
                     var temp = {}
+                    temp["num"] = commande.meubleNumSerie.numSerie
                     temp["nom"] = commande.meubleNumSerie.nomMeuble
                     temp["nombre"] = commande.nombreCommande
                     commandesMeubles.push(temp)
@@ -100,16 +101,16 @@ handleSuppression(event){
 }
 
 modificationConfirmed(formData){
-    this.putCommande(this.state.modifyID, formData, this.redirect)
+    this.putCommandesMeuble(this.state.modifyID, formData, this.redirect)
 }
 
 deleteConfirmed(id){
     this.toggleModalConfirmation()
-    this.deleteCommande(id, this.refresh);
+    this.deleteCommandesMeuble(id, this.refresh);
 }
 
 handleAjout(formData){
-    this.postCommande(formData, this.refresh);
+    this.postCommandesMeuble(formData, this.refresh);
 }
 
 // fin evenements CRUD
@@ -121,21 +122,23 @@ goToAjout(){
 
 redirect(){
     history.push('/temp')
-    history.replace('/main/commandes/contient/' + this.props.match.params.num)
+    history.replace('/main/commandes/contients/' + this.props.match.params.num)
 }
 toggleModalConfirmation(){
     this.setState({modalConfirmation: !this.state.modalConfirmation})
 }
 refresh(){
-    this.getCommandes()
+    this.getCommandesMeubles()
     this.redirect()
 }
 // fin evenement Affichage
 
     constructor(props){
         super(props)
-        this.state = { 
-            contients : [] ,
+        this.state = {
+            deleteID: null,
+            modifyID: null,
+            modalConfirmation : false,
             loading: false,
             dataCommandesMeubles: []
         }

@@ -22,19 +22,23 @@ export default class ListeCommandes extends Component {
          height={500}
          autoHeight
        >
-       <Column width={100} sort resizable>
+       <Column width={50} sort resizable>
        <HeaderCell>#</HeaderCell>
        <Cell dataKey="num" />
        </Column>
-       <Column width={400} resizable>
+       <Column width={200} resizable>
        <HeaderCell>Nom</HeaderCell>
        <Cell dataKey="nomclient" />
        </Column>
-       <Column width={300} resizable>
+       <Column width={250} resizable>
        <HeaderCell>Date</HeaderCell>
        <Cell dataKey="date" />
        </Column>
-        <Column width={150} fixed="right" resizable>
+       <Column width={150} resizable>
+       <HeaderCell>Etat</HeaderCell>
+       <Cell dataKey="livree" />
+       </Column>
+        <Column width={200} fixed="right" resizable>
        <HeaderCell>Action</HeaderCell>
        <Cell>
  
@@ -42,9 +46,10 @@ export default class ListeCommandes extends Component {
  
          return(
           <ButtonGroup>
-            <Button className="btn-sm" id={row.num} theme="success" onClick={this.props.onModifyCommande}> <span><FaPenAlt/></span>  </Button>
-            <Button className="btn-sm" id={row.num} theme="danger" onClick={this.props.onDeleteCommande}> <span><FaTrashAlt/></span>  </Button>
-            <Button className="btn-sm" id={row.num} theme="primary" onClick={this.props.onPanierCommande}> <span><FaCartArrowDown/></span></Button>
+          {!row.etat && (<Button className="btn-sm text-white" id={row.num} theme="success" onClick={this.props.onModifyCommande}> <span><FaPenAlt/></span>  </Button>)}
+            <Button className="btn-sm text-white" id={row.num} theme="danger" onClick={this.props.onDeleteCommande}> <span><FaTrashAlt/></span>  </Button>
+            {!row.etat && (<Button className="btn-sm text-white" id={row.num} theme="warning" onClick={this.props.onEtatChange} > <span> <FaCartArrowDown /> </span> </Button>)}
+            <Button className="btn-sm text-white" id={row.num} theme="primary" onClick={this.props.onPanierCommande}> <span><FaCartArrowDown/></span></Button>
           </ButtonGroup>
          )
        }
@@ -61,6 +66,7 @@ ListeCommandes.propTypes = {
   commandes: PropTypes.array,
   loading: PropTypes.bool,
   onDeleteCommande: PropTypes.func,
+  onEtatChange: PropTypes.func,
   onModifyCommande: PropTypes.func,
   onPanierCommande: PropTypes.func
 }

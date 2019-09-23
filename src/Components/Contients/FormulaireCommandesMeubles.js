@@ -7,24 +7,15 @@ import { PropTypes } from 'prop-types';
 
 export default class FormulaireCommandesMeubles extends Component {
 
-    getMeubles(){
+    getMeubles(getOk){
         this.setState({loading: true})
-        var req = new Request('http://localhost:8000/api/meubles');
+        var req = new Request('http://localhost:8000/api/meublesdispo');
         fetch(req)
         .then(response => {
             if(response.status === 200){
                 response.json().then(data =>{
-                    var meubles = []
-                    data.forEach((meuble) =>{
-                        var temp = {}
-                        temp["num"] = meuble.numSerie
-                        temp["nom"] = meuble.nomMeuble
-                        temp["prix"] = new Format().formatPrix(meuble.prix.toString()) + " Ar"
-                        temp["quantite"] = meuble.quantiteStock
-                        temp["categorie"] = meuble.categorie.categorie
-                        meubles.push(temp)
-                    })
-                    this.setState({loading: false, dataMeubles: meubles});
+                    this.setState({loading: false, dataMeublesDispo: data});
+                    getOk()
                     return 1
                 })
             }else{
@@ -35,12 +26,16 @@ export default class FormulaireCommandesMeubles extends Component {
 
     constructor(props){
         super(props)
-        this.state = {error: false, messageError: ''}
+        this.state = {error: false, messageError: '', dataMeublesDispo: [], max: 0}
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleMeubleChange = this.handleMeubleChange.bind(this)
+        this.setMax = this.setMax.bind(this)
     }
     componentDidMount() {
-
+        this.getMeubles(() => {
+            this.setMax() 
+        })
         if(!this.props.ajout){
             var req
               this.setState({loading: true})
@@ -73,27 +68,40 @@ export default class FormulaireCommandesMeubles extends Component {
         this.setState({error: false})
         event.preventDefault()
         var formData = Object.fromEntries(new FormData(event.target))
-        if(formData.categorie.trim() === ""){
-            this.setState({error : true, messageError: 'Champs vide'})
-        }
         if(!this.state.error){
             this.props.onSubmit(formData)
         }
     }
+
+    handleMeubleChange(event){
+        this.setMax()
+        var quantite = document.querySelector('#nombrecommande')
+        quantite.value = ""
+    }
+    setMax(){
+        var select = document.querySelector('#meuble')
+        if(select !== null){
+            if(select.options[0]){
+                this.setState({max: Number(select.options[select.selectedIndex].getAttribute('max'))})
+            }
+        }
+    }
     render() {
-        const meubles = 
+        const meubles = this.state.dataMeublesDispo.map((value, index) =>
+            <option key={index} max={value.quantiteStock} value={value.numSerie}> {value.nomMeuble} </option>
+        )
         return (
-            <Row className="my-4">
             <Form onSubmit={this.handleSubmit}>
+            <Row className="my-4">
 
             <Col sm={12} md={6}>
             <label htmlFor="meuble">Meubles : </label>
-              <FormSelect name="meuble" id="meuble">
+              <FormSelect onChange={this.handleMeubleChange} name="numserie" id="meuble">
                 {meubles}
               </FormSelect>
             </Col>
             <Col sm={12} md={6}>
-                <InputCustom />
+                <InputCustom name="nombrecommande" label="Nombre" placeholder="quantite commande" min={1} max={this.state.max} type="number"  />
             </Col>
 
             <div className="w-100"></div>
@@ -101,8 +109,8 @@ export default class FormulaireCommandesMeubles extends Component {
                 <Button type="submit" className="mx-2" theme="primary">OK</Button>
                 <Button type="reset" onClick={this.props.onCancel} className="mx-2" theme="secondary">Annuler</Button>
             </Col>
-            </Form>
             </Row>
+            </Form>
         )
     }
 }

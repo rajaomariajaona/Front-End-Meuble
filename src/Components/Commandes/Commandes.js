@@ -27,9 +27,12 @@ export default class Commandes extends Component {
                     temp["num"] = commande.numCommande
                     temp["nomclient"] = commande.clientNumClient.nomClient + " " + commande.clientNumClient.prenomClient
                     temp["date"] = new Format().printDate(commande.dateCommande)
+
+                    temp["livree"] = commande.livree? "Livree" : "En cours"
+                    temp["etat"] = commande.livree
                     commandes.push(temp)
                 })
-                    this.setState({dataCommandes: commandes, loading: false});
+                    this.setState({dataCommandes: commandes, loading: false, modalChangeConfirmation: false});
                 })
         });
     }
@@ -83,6 +86,22 @@ export default class Commandes extends Component {
         }
     });
     }
+    patchEtatCommande(id, changeOk){
+        var parameters = {
+            method: "PATCH",
+            headers:{
+                'Content-Type': 'application/json'
+                },
+            body: JSON.stringify({'livree' : true})
+        }
+        var req = new Request('http://localhost:8000/api/commandes/' + id + "/livree", parameters);
+        fetch(req)
+        .then(response => {
+            if(response.status === 204){
+                changeOk()
+            }
+        });
+        }
 
 //fin access webservice
 
@@ -113,8 +132,19 @@ deleteConfirmed(id){
     this.deleteCommande(id, this.refresh);
 }
 
+etatChangeConfirmed(id){
+    this.toggleModalChangeConfirmation()
+    this.patchEtatCommande(id, this.refresh);
+}
+
 handleAjout(formData){
     this.postCommande(formData, this.refresh);
+}
+
+handleEtatChange(event){
+    var num = event.currentTarget.id
+    this.setState({modifyID: num})
+    this.toggleModalChangeConfirmation()
 }
 
 // fin evenements CRUD
@@ -130,6 +160,9 @@ redirect(){
 }
 toggleModalConfirmation(){
     this.setState({modalConfirmation: !this.state.modalConfirmation})
+}
+toggleModalChangeConfirmation(){
+    this.setState({modalChangeConfirmation: !this.state.modalChangeConfirmation})
 }
 refresh(){
     this.getCommandes()
@@ -154,11 +187,13 @@ refresh(){
         this.handlePanier = this.handlePanier.bind(this)
         this.handleSuppression = this.handleSuppression.bind(this)
         this.handleModification = this.handleModification.bind(this)
+        this.handleEtatChange = this.handleEtatChange.bind(this)
         this.modificationConfirmed = this.modificationConfirmed.bind(this)
         this.deleteConfirmed = this.deleteConfirmed.bind(this)
         this.handleAjout = this.handleAjout.bind(this)
 
         this.toggleModalConfirmation = this.toggleModalConfirmation.bind(this)
+        this.toggleModalChangeConfirmation = this.toggleModalChangeConfirmation.bind(this)
         this.goToAjout = this.goToAjout.bind(this)
         this.refresh = this.refresh.bind(this)
         this.redirect = this.redirect.bind(this)
@@ -173,11 +208,9 @@ refresh(){
                     <Router history={history}>
                     <Switch>
                         <Route exact path="/main/commandes" component={() => (
-
-
                             <div>
             <Button className="m-3 p-2 shadow-sm" style={{float: 'right'}} theme="success" onClick={this.goToAjout}> <FaPlus style={{fontWeight: 'bold', fontSize: '1.5em'}} /> </Button>            
-            <ListeCommandes loading={this.state.loading} onDeleteCommande={this.handleSuppression} onModifyCommande={this.handleModification} onPanierCommande={this.handlePanier}  commandes={this.state.dataCommandes}/></div>)} />
+            <ListeCommandes onEtatChange={this.handleEtatChange} loading={this.state.loading} onDeleteCommande={this.handleSuppression} onModifyCommande={this.handleModification} onPanierCommande={this.handlePanier}  commandes={this.state.dataCommandes}/></div>)} />
                         <Route path="/main/commandes/contients/:num" component={Contients}/>
                         <Route path="/main/commandes/ajout" component={() =><FormulaireCommande ajout onCancel={this.redirect} onSubmit={this.handleAjout}/>}/>
 
@@ -185,6 +218,7 @@ refresh(){
                     </Switch>
                 </Router> 
                 <Confirmation text=" Voulez vous supprimer? " onNo={this.toggleModalConfirmation} onYes={() => {this.deleteConfirmed(this.state.deleteID)} } isOpen={this.state.modalConfirmation} toggle={this.toggleModalConfirmation} />
+                <Confirmation text=" Attention vous ne pouvez plus revenir en arriere veuillez verifier ? " onNo={this.toggleModalChangeConfirmation} onYes={() => {this.etatChangeConfirmed(this.state.modifyID)} } isOpen={this.state.modalChangeConfirmation} toggle={this.toggleModalChangeConfirmation} />
                 </div>
         )
     }
