@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { Row, Col } from 'shards-react'
 import Format from '../Other/Format';
 import FormulaireCommande from './FormulaireCommande';
 import Confirmation from '../Other/Confirmation';
@@ -209,7 +208,7 @@ refresh(){
                     <Switch>
                         <Route exact path="/main/commandes" component={() => (
                             <div>
-            <Button className="m-3 p-2 shadow-sm" style={{float: 'right'}} theme="success" onClick={this.goToAjout}> <FaPlus style={{fontWeight: 'bold', fontSize: '1.5em'}} /> </Button>            
+            <Button className="m-3 p-2 shadow-sm" style={{float: 'right'}} theme="success" onClick={this.goToAjout}> <FaPlus style={{fontWeight: 'bold', fontSize: '1.5em'}} /> Ajouter </Button>            
             <ListeCommandes onEtatChange={this.handleEtatChange} loading={this.state.loading} onDeleteCommande={this.handleSuppression} onModifyCommande={this.handleModification} onPanierCommande={this.handlePanier}  commandes={this.state.dataCommandes}/></div>)} />
                         <Route path="/main/commandes/contients/:num" component={Contients}/>
                         <Route path="/main/commandes/ajout" component={() =><FormulaireCommande ajout onCancel={this.redirect} onSubmit={this.handleAjout}/>}/>

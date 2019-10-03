@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ListeCategories from './ListeCategories';
-import { Button, Collapse, Row, Col } from "shards-react";
+import { Button } from "shards-react";
 import FormulaireCategorie from './FormulaireCategorie';
 import history from '../Other/History';
 import { Router , Route} from 'react-router-dom';
@@ -18,6 +18,7 @@ getCategories(){
     .then(response => {
         if(response.status === 200){
             response.json().then(data =>{
+                console.log(data)
                 var categories = []
                 data.forEach((categorie) =>{
                     var temp = {}
@@ -25,6 +26,7 @@ getCategories(){
                     categories.push(temp)
                 })
                 this.setState({loading: false, dataCategories: categories});
+                
                 return 1
             })
         }else{
@@ -173,7 +175,7 @@ componentDidMount(){
                         <Route exact path="/main/meubles/categories" component={() => (
 
                             <div>
-                            <Button className="m-3 p-2 shadow-sm" style={{float: 'right'}} theme="success" onClick={this.goToAjout}> <FaPlus style={{fontWeight: 'bold', fontSize: '1.5em'}} /> </Button>             <ListeCategories onModifyCategorie={this.handleModification} onDeleteCategorie={this.handleSuppression} loading={this.state.loading} categories={this.state.dataCategories} />
+                            <Button className="m-3 p-2 shadow-sm" style={{float: 'right'}} theme="success" onClick={this.goToAjout}> <FaPlus style={{fontWeight: 'bold', fontSize: '1.5em'}} /> Ajouter </Button>             <ListeCategories onModifyCategorie={this.handleModification} onDeleteCategorie={this.handleSuppression} loading={this.state.loading} categories={this.state.dataCategories} />
                            </div>)} />
 
                         <Route path="/main/meubles/categories/ajout" component={() =><FormulaireCategorie ajout onCancel={this.redirect} onSubmit={this.handleAjout}/>}/>

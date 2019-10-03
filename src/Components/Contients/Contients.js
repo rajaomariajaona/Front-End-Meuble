@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
-import Loading from '../Other/Loading';
-import {Row ,Col, Button} from 'shards-react'
+import {Button} from 'shards-react'
 import Format from '../Other/Format';
 import ListeCommandesMeubles from './ListeCommandesMeubles';
-import TableContient from './TableContient'
 import { PropTypes } from 'prop-types';
 import history from '../Other/History';
 import { Router, Switch, Route } from 'react-router-dom';
@@ -25,6 +23,8 @@ export default class Contients extends Component {
                     var temp = {}
                     temp["num"] = commande.meubleNumSerie.numSerie
                     temp["nom"] = commande.meubleNumSerie.nomMeuble
+                    temp["prixUnitaire"] = this.format.formatPrix(commande.meubleNumSerie.prix + "")
+                    temp["prix"] = this.format.formatPrix((commande.meubleNumSerie.prix * commande.nombreCommande) + "")
                     temp["nombre"] = commande.nombreCommande
                     commandesMeubles.push(temp)
                 })
@@ -170,7 +170,7 @@ refresh(){
                     <Switch>
                         <Route exact path="/main/commandes/contients/:num" component={() => (
                             <div>
-            <Button className="m-3 p-2 shadow-sm" style={{float: 'right'}} theme="success" onClick={this.goToAjout}> <FaPlus style={{fontWeight: 'bold', fontSize: '1.5em'}} /> </Button>            
+            <Button className="m-3 p-2 shadow-sm" style={{float: 'right'}} theme="success" onClick={this.goToAjout}> <FaPlus style={{fontWeight: 'bold', fontSize: '1.5em'}} /> Ajouter </Button>            
             <ListeCommandesMeubles loading={this.state.loading} onDeleteCommande={this.handleSuppression} onModifyCommande={this.handleModification} onPanierCommande={this.handlePanier}  commandesMeubles={this.state.dataCommandesMeubles}/></div>)} />
                         <Route path="/main/commandes/contients/:num/ajout" component={() =><FormulaireCommandesMeubles ajout onCancel={this.redirect} onSubmit={this.handleAjout}/>}/>
 
@@ -181,4 +181,8 @@ refresh(){
                 </div>
         )
     }
+}
+
+Contients.propTypes = {
+  match: PropTypes.any
 }

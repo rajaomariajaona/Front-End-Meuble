@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Col, Button, FormSelect, FormGroup } from 'shards-react';
+import { Col, Button, FormSelect } from 'shards-react';
 import DatePicker from 'react-datepicker'
 import { Row , Form} from 'shards-react';
 import { fr } from 'date-fns/locale';

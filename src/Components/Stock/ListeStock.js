@@ -32,7 +32,7 @@ import {FaPenAlt, FaTrashAlt} from 'react-icons/fa'
       <HeaderCell>Categorie</HeaderCell>
       <Cell dataKey="categorie" />
       </Column> 
-      <Column width={150} fixed="right" resizable>
+      <Column width={230} fixed="right" resizable>
       <HeaderCell>Action</HeaderCell>
       <Cell>
 
@@ -40,8 +40,8 @@ import {FaPenAlt, FaTrashAlt} from 'react-icons/fa'
 
         return(
           <ButtonGroup>
-            <Button className="btn-sm" id={row.num} theme="success" onClick={this.props.onModifyMeuble}> <span><FaPenAlt/></span>  </Button>
-            <Button className="btn-sm" id={row.num} theme="danger" onClick={this.props.onDeleteMeuble}> <span><FaTrashAlt/></span>  </Button>
+            <Button className="btn-sm" id={row.num} theme="success" onClick={this.props.onModifyMeuble}> <span><FaPenAlt/> Modifier </span>  </Button>
+            <Button className="btn-sm" id={row.num} theme="danger" onClick={this.props.onDeleteMeuble}> <span><FaTrashAlt/> Supprimer </span>  </Button>
           </ButtonGroup>
         )
       }

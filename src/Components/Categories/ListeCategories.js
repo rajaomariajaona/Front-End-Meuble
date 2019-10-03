@@ -2,8 +2,6 @@
 import { Table, Column, HeaderCell, Cell } from 'rsuite-table'
 import { Button, ButtonGroup } from "shards-react";
 import {FaPenAlt, FaTrashAlt} from 'react-icons/fa'
-import Confirmation from '../Other/Confirmation';
-import history from '../Other/History';
 import { PropTypes } from 'prop-types';
  export default class ListeCategories extends Component {
     render() {
@@ -18,7 +16,7 @@ import { PropTypes } from 'prop-types';
       <HeaderCell>Categorie</HeaderCell>
       <Cell dataKey="categorie" />
       </Column>
-       <Column width={150} fixed="right" resizable>
+       <Column width={230} fixed="right" resizable>
       <HeaderCell>Action</HeaderCell>
       <Cell>
 
@@ -26,8 +24,8 @@ import { PropTypes } from 'prop-types';
 
         return(
           <ButtonGroup>
-            <Button className="btn-sm" id={row.categorie} theme="success" onClick={this.props.onModifyCategorie}> <span><FaPenAlt/></span>  </Button>
-            <Button className="btn-sm" id={row.categorie} theme="danger" onClick={this.props.onDeleteCategorie}> <span><FaTrashAlt/></span>  </Button>
+            <Button className="btn-sm" id={row.categorie} theme="success" onClick={this.props.onModifyCategorie}> <span><FaPenAlt/> Modifier </span>  </Button>
+            <Button className="btn-sm" id={row.categorie} theme="danger" onClick={this.props.onDeleteCategorie}> <span><FaTrashAlt/> Supprimer </span>  </Button>
           </ButtonGroup>
         )
       }

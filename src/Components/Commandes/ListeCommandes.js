@@ -2,16 +2,21 @@ import React, { Component } from 'react'
 import { Table, Column, HeaderCell, Cell } from 'rsuite-table'
 
 import { Button, ButtonGroup } from "shards-react";
-import {FaPenAlt, FaTrashAlt, FaCartArrowDown} from 'react-icons/fa'
+import {FaPenAlt, FaTrashAlt, FaCartArrowDown, FaLuggageCart} from 'react-icons/fa'
 import { PropTypes } from 'prop-types';
 
 export default class ListeCommandes extends Component {
 
     constructor(props){
         super(props)
-        this.state = {commandes: this.props.commandes}
+        this.state = {commandes: this.props.commandes, open: false}
+        this.toggle = this.toggle.bind(this)
       }
     
+      toggle(){
+        this.setState({open : !this.state.open})
+      }
+
     render() {
         return (
             <div className="shadow py-5 px-4" style={{backgroundColor:'white', zIndex: 100, marginTop: -30, borderRadius: 2}}>
@@ -34,22 +39,22 @@ export default class ListeCommandes extends Component {
        <HeaderCell>Date</HeaderCell>
        <Cell dataKey="date" />
        </Column>
-       <Column width={150} resizable>
+       <Column width={110} resizable>
        <HeaderCell>Etat</HeaderCell>
        <Cell dataKey="livree" />
        </Column>
-        <Column width={200} fixed="right" resizable>
+        <Column width={400} fixed="right" resizable>
        <HeaderCell>Action</HeaderCell>
        <Cell>
- 
+        
        {row => {
  
          return(
           <ButtonGroup>
-          {!row.etat && (<Button className="btn-sm text-white" id={row.num} theme="success" onClick={this.props.onModifyCommande}> <span><FaPenAlt/></span>  </Button>)}
-            <Button className="btn-sm text-white" id={row.num} theme="danger" onClick={this.props.onDeleteCommande}> <span><FaTrashAlt/></span>  </Button>
-            {!row.etat && (<Button className="btn-sm text-white" id={row.num} theme="warning" onClick={this.props.onEtatChange} > <span> <FaCartArrowDown /> </span> </Button>)}
-            <Button className="btn-sm text-white" id={row.num} theme="primary" onClick={this.props.onPanierCommande}> <span><FaCartArrowDown/></span></Button>
+          {!row.etat && (<Button className="btn-sm text-white" id={row.num} theme="success" onClick={this.props.onModifyCommande}> <span><FaPenAlt/> Modifier </span>  </Button>)}
+            <Button className="btn-sm text-white" id={row.num} theme="danger" onClick={this.props.onDeleteCommande}> <span><FaTrashAlt/> Supprimer </span>  </Button>
+            {!row.etat && (<Button className="btn-sm text-white" id={row.num} theme="warning" onClick={this.props.onEtatChange} > <span> <FaLuggageCart /> Livrer </span> </Button>)}
+            <Button className="btn-sm text-white" id={row.num} theme="primary" onClick={this.props.onPanierCommande}> <span><FaCartArrowDown/> Panier</span></Button>
           </ButtonGroup>
          )
        }

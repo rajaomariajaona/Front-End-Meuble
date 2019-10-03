@@ -179,7 +179,7 @@ refresh(){
                     <Switch>
                         <Route exact path="/main/meubles/listes" component={() => (
                             <div>
-                            <Button className="m-3 p-2 shadow-sm" style={{float: 'right'}} theme="success" onClick={this.goToAjout}> <FaPlus style={{fontWeight: 'bold', fontSize: '1.5em'}} /> </Button>             <ListeStock onModifyMeuble={this.handleModification} onDeleteMeuble={this.handleSuppression} loading={this.state.loading} meubles={this.state.dataMeubles} />
+                            <Button className="m-3 p-2 shadow-sm" style={{float: 'right'}} theme="success" onClick={this.goToAjout}> <FaPlus style={{fontWeight: 'bold', fontSize: '1.5em'}} /> Ajouter </Button>             <ListeStock onModifyMeuble={this.handleModification} onDeleteMeuble={this.handleSuppression} loading={this.state.loading} meubles={this.state.dataMeubles} />
                            </div>)} />
 
                         <Route path="/main/meubles/listes/ajout" component={() =><FormulaireMeuble ajout onCancel={this.redirect} onSubmit={this.handleAjout}/>}/>
