@@ -212,7 +212,7 @@ export default class Acceuil extends Component {
     var stat2 =
       this.state.statClient.length > 0 ? (
         <MiniCard
-          title=" Client qui a plus achete "
+          title=" Meilleure cliente "
           theme="danger"
           contenu={
             this.state.statClient[0]["nomClient"] +
@@ -222,7 +222,7 @@ export default class Acceuil extends Component {
         />
       ) : (
         <MiniCard
-          title=" Client qui a plus achete "
+          title=" Meilleur client "
           theme="danger"
           contenu={""}
         />

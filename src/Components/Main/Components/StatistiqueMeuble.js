@@ -27,7 +27,6 @@ export default class StatistiqueMeuble extends Component {
             ]
           };
         const options ={
-            maintainAspectRatio: false,
             scales: {
               yAxes: [{
                   ticks: {

@@ -12,7 +12,7 @@ import { PropTypes } from 'prop-types';
         data={this.props.categories}
         height={window.innerHeight/2}
       >
-      <Column width={600} resizable>
+      <Column width={770} resizable>
       <HeaderCell>Categorie</HeaderCell>
       <Cell dataKey="categorie" />
       </Column>
