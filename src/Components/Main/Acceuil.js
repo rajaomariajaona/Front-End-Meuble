@@ -17,7 +17,8 @@ import { FormRadio } from "shards-react";
 import { fr } from "date-fns/esm/locale";
 import { savePDF } from "@progress/kendo-react-pdf";
 import "./print.css";
-import {FaFilePdf} from 'react-icons/fa'
+import { FaFilePdf } from "react-icons/fa";
+import ReactWOW from "react-wow";
 
 export default class Acceuil extends Component {
   // access web services
@@ -134,7 +135,6 @@ export default class Acceuil extends Component {
     fetch(req).then(response => {
       response.json().then(data => {
         this.setState({ statmeuble: data });
-
       });
     });
   }
@@ -146,7 +146,6 @@ export default class Acceuil extends Component {
     fetch(req).then(response => {
       response.json().then(data => {
         this.setState({ statcategorie: data });
-
       });
     });
   }
@@ -202,15 +201,15 @@ export default class Acceuil extends Component {
     this.savePdf = this.savePdf.bind(this);
   }
   savePdf(event) {
-    var id = event.currentTarget.id
-    var printRef
-    switch(id){
-      case "toprint" : 
-        printRef = this.toPrint
-        break
+    var id = event.currentTarget.id;
+    var printRef;
+    switch (id) {
+      case "toprint":
+        printRef = this.toPrint;
+        break;
       case "toprintmensuel":
-        printRef = this.toPrintMensuel
-        break
+        printRef = this.toPrintMensuel;
+        break;
     }
     savePDF(printRef.current, {
       scale: 0.45,
@@ -285,20 +284,26 @@ export default class Acceuil extends Component {
                 onZoomedChanged={this.handleZoom}
               />
             </Col>
+            <ReactWOW animation="bounceInLeft">
             <Col md={6}>
+
               <StatistiqueMeuble
                 data={this.state.statmeuble}
                 canZoom
                 onZoomedChanged={this.handleZoom}
               />
             </Col>
+            </ReactWOW>
+            <ReactWOW animation="bounceInRight">
             <Col md={6}>
+
               <StatistiqueCategorie
                 data={this.state.statcategorie}
                 canZoom
                 onZoomedChanged={this.handleZoom}
               />
             </Col>
+            </ReactWOW>
           </Row>
         );
         break;
@@ -426,59 +431,62 @@ export default class Acceuil extends Component {
 
     return (
       <Container>
-        <Card className="mb-3" style={{marginTop: -40}}>
-          <CardHeader>
-            <Row className="align-items-center">
-              <Col sm={12} md={4} className="text-left px-3">
-                <DatePicker
-                  className="form-control"
-                  name="date"
-                  id="date"
-                  locale={fr}
-                  dateFormat="dd/MM/yyyy"
-                  maxDate={new Date()}
-                  selected={this.state.date}
-                  onChange={date =>
-                    this.setState({ date: date }, () => {
-                      this.getStats();
-                    })
-                  }
-                />
-              </Col>
-              {formRadio}
-              <Col sm={12} md={4}>
-                <Button
-                  onClick={this.savePdf}
-                  id="toprint"
-                  className="btn-outline-primary btn-pill mx-auto mr-md-0 ml-md-auto d-block"
-                  theme="primary"
-                >
-                  {" "}
-                  <FaFilePdf/> PDF{" "}
-                </Button>
-              </Col>
-            </Row>
-          </CardHeader>
-          <CardBody>
-            <Row>
-              <Col sm={12}>
-                <Row className="my-2">
-                  <Col className="my-2" md={4} sm={12}>
-                    {stat1}
-                  </Col>
-                  <Col className="my-2" md={4} sm={12}>
-                    {stat2}
-                  </Col>
-                  <Col className="my-2" md={4} sm={12}>
-                    {stat3}
-                  </Col>
-                </Row>
-              </Col>
-            </Row>
-          </CardBody>
-        </Card>
-        
-        <Card className="mt-5" style={{marginBottom: -110}}>
+        <ReactWOW animation="bounceInDown">
+          <Card className="mb-3" style={{ marginTop: -40 }}>
+            <CardHeader>
+              <Row className="align-items-center">
+                <Col sm={12} md={4} className="text-left px-3">
+                  <DatePicker
+                    className="form-control"
+                    name="date"
+                    id="date"
+                    locale={fr}
+                    dateFormat="dd/MM/yyyy"
+                    maxDate={new Date()}
+                    selected={this.state.date}
+                    onChange={date =>
+                      this.setState({ date: date }, () => {
+                        this.getStats();
+                      })
+                    }
+                  />
+                </Col>
+                {formRadio}
+                <Col sm={12} md={4}>
+                  <Button
+                    onClick={this.savePdf}
+                    id="toprint"
+                    className="btn-outline-primary btn-pill mx-auto mr-md-0 ml-md-auto d-block"
+                    theme="primary"
+                  >
+                    {" "}
+                    <FaFilePdf /> PDF{" "}
+                  </Button>
+                </Col>
+              </Row>
+            </CardHeader>
+            <CardBody>
+              <Row>
+                <Col sm={12}>
+                  <Row className="my-2">
+                    <Col className="my-2" md={4} sm={12}>
+                      {stat1}
+                    </Col>
+                    <Col className="my-2" md={4} sm={12}>
+                      {stat2}
+                    </Col>
+                    <Col className="my-2" md={4} sm={12}>
+                      {stat3}
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            </CardBody>
+          </Card>
+        </ReactWOW>
+
+        <ReactWOW animation="bounceIn">
+        <Card className="mt-5" style={{ marginBottom: -110 }}>
           <CardHeader>
             <Row className="align-items-center">
               <Col sm={12} md={8} className="text-left px-3">
@@ -503,16 +511,18 @@ export default class Acceuil extends Component {
                   theme="primary"
                 >
                   {" "}
-                  <FaFilePdf/> PDF{" "}
+                  <FaFilePdf /> PDF{" "}
                 </Button>
               </Col>
             </Row>
           </CardHeader>
-          <CardBody>
-          </CardBody>
+          <CardBody></CardBody>
         </Card>
-
+        </ReactWOW>
         {stats}
+
+
+
 
         <div id="print-container">
           <div ref={this.toPrint}>
@@ -577,8 +587,8 @@ export default class Acceuil extends Component {
                 )}
               </Col>
             </Row>
-            </div>
-            <div ref={this.toPrintMensuel}>
+          </div>
+          <div ref={this.toPrintMensuel}>
             {titreChart}
             <Row className="my-5">
               <Col md={12} className="my-5">

@@ -9,6 +9,8 @@ import './rsuite-table.css';
 import './Navigation.css'
 import './react-sidenav.css'
 import 'react-datepicker/dist/react-datepicker.min.css'
+import './animate.min.css'
+import './animatedSwitch.css'
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(<App />, document.getElementById('root'));

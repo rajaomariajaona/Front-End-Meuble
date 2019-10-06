@@ -130,8 +130,7 @@ export default class ListeClients extends Component {
         <Table
           loading={this.props.loading}
           data={this.state.clients}
-          height={window.innerHeight / 2}
-          autoHeight
+          height={window.innerHeight * 2 / 7}
         >
           <Column width={200} sort resizable>
             <HeaderCell>Nom</HeaderCell>

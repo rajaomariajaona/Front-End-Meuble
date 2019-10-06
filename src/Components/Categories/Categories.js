@@ -169,6 +169,7 @@ export default class Categories extends Component {
   }
 
   render() {
+    
     return (
       <div>
         <Router history={history}>

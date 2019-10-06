@@ -30,8 +30,7 @@ export default class ListeCommandesMeubles extends Component {
        <Table
          loading={this.props.loading}
          data={this.props.commandesMeubles}
-         height={window.innerHeight/2}
-         autoHeight
+         height={window.innerHeight * 2/5}
        >
        <Column width={300} resizable>
        <HeaderCell>Nom</HeaderCell>

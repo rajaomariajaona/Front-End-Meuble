@@ -98,7 +98,6 @@ export default class ListeMeubles extends Component {
           loading={this.props.loading}
           data={this.state.meubles}
           height={window.innerHeight / 2}
-          autoHeight
         >
           <Column width={200} sort resizable>
             <HeaderCell>Numero de serie</HeaderCell>

@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import { Container, Row } from "shards-react";
 import Navigation from "./Navigation";
-import { Router, Route, Switch } from "react-router-dom";
+import { Router, Route } from "react-router-dom";
+import { AnimatedSwitch as Switch , spring} from "react-router-transition";
 import Meubles from "../Meubles/Meubles";
 import Clients from "../Clients/Clients";
 import Test from "../../Test";
@@ -10,7 +11,7 @@ import { createBrowserHistory } from "history";
 import history from "../Other/History";
 import Categories from "../Categories/Categories";
 import Commandes from "../Commandes/Commandes";
-import NotFound from '../Other/NotFound';
+import NotFound from "../Other/NotFound";
 
 export default class Main extends Component {
   constructor(props) {
@@ -26,7 +27,34 @@ export default class Main extends Component {
   componentWillUnmount() {
     document.querySelector("#toggler").removeEventListener();
   }
+
   render() {
+    function mapStyles(styles) {
+      return {
+        opacity: styles.opacity,
+        transform: `scale(${styles.scale})`
+      };
+    }
+    function bounce(val) {
+      return spring(val, {
+        stiffness: 330,
+        damping: 22
+      });
+    }
+    const bounceTransition = {
+      atEnter: {
+        opacity: 0,
+        scale: 1.2
+      },
+      atLeave: {
+        opacity: bounce(0),
+        scale: bounce(0.8)
+      },
+      atActive: {
+        opacity: bounce(1),
+        scale: bounce(1)
+      }
+    };
     return (
       <div>
         <Container fluid>
@@ -39,7 +67,13 @@ export default class Main extends Component {
           }
         >
           <Router history={history}>
-            <Switch>
+            <Switch
+              atEnter={bounceTransition.atEnter}
+              atLeave={bounceTransition.atLeave}
+              atActive={bounceTransition.atActive}
+              mapStyles={mapStyles}
+              className="route-wrapper"
+            >
               <Route exact path="/main/" component={Acceuil} />
               <Route path="/main/meubles/listes" component={Meubles} />
               <Route path="/main/meubles/categories" component={Categories} />

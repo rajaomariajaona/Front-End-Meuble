@@ -68,7 +68,7 @@ export default class ListeCategories extends Component {
         <Table
           loading={this.props.loading}
           data={this.state.categories}
-          height={window.innerHeight / 2}
+          height={window.innerHeight * 1/ 3}
         >
           <Column width={770} resizable>
             <HeaderCell>Categorie</HeaderCell>

@@ -4,9 +4,9 @@ import { Loader } from 'react-loaders';
 export default class Loading extends Component {
     render() {
         return (
-            <center>
-                <Loader className="mt-5" type="line-scale" active color="#007bff"/>
-            </center>
+            <div className="" style={{position: "absolute", top: "50%", left: "50%"}}>
+                <Loader className="mt-5 d-block" type="line-scale" active color="#007bff"/>
+            </div>
         )
     }
 }
