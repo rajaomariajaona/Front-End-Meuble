@@ -17,7 +17,6 @@ import { FormRadio } from "shards-react";
 import { fr } from "date-fns/esm/locale";
 import { savePDF } from "@progress/kendo-react-pdf";
 import "./print.css";
-import Test from '../Print/Test';
 import {FaFilePdf} from 'react-icons/fa'
 
 export default class Acceuil extends Component {
@@ -594,7 +593,6 @@ export default class Acceuil extends Component {
             </Row>
           </div>
         </div>
-        <Test/>
       </Container>
     );
   }

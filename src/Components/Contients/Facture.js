@@ -4,13 +4,17 @@ import { PropTypes } from "prop-types";
 import { Row, Col, Card, CardBody, Button } from "shards-react";
 import { CardHeader } from "shards-react";
 import { FaFilePdf } from "react-icons/fa";
+import Loading from '../Other/Loading';
+import Format from '../Other/Format';
 
-export default class Test extends Component {
+export default class Facture extends Component {
   constructor(props) {
     super(props);
     this.facture = React.createRef();
-    this.state = {};
+    this.state = {data:[]};
     this.handleClick = this.handleClick.bind(this);
+    this.getFacture = this.getFacture.bind(this);
+    this.format = new Format()
   }
 
   handleClick(event) {
@@ -22,9 +26,32 @@ export default class Test extends Component {
     });
   }
 
+  getFacture() {
+    this.setState({ loading: true });
+    var req = new Request(
+      "http://localhost:8000/api/factures/" + this.props.match.params.num
+    );
+    fetch(req).then(response => {
+      response.json().then(data => {
+        this.setState({ data: data, loading: false });
+      });
+    });
+  }
+
+  componentDidMount(){
+    this.getFacture()
+  }
   render() {
+    var total = 0
+    const rows = this.state.data.map((value,index) => {
+      total += Number(value.prixTotal)
+      return  <tr key={index}>
+      <td>{value.numSerie}</td><td>{value.nomMeuble}</td><td>{value.categorie}</td><td>{value.quantiteCommande}</td><td>{this.format.formatPrix(value.prixUnitaire)}</td><td>{this.format.formatPrix(value.prixTotal)}</td>
+      </tr>
+    })
     return (
       <Row className="my-5">
+      {this.state.data.length> 0 ? (
         <Col sm={12}>
           <Card>
             <CardHeader>
@@ -44,20 +71,20 @@ export default class Test extends Component {
                   <Col xs={6}>
                     <h1 className="display-4"> Facture </h1>
                     <p className="font-weight-bold mb-1">
-                      {" "}
-                      {this.props.numcommande}{" "}
+                      <span>Commande numero : </span> {" "}
+                      <span className="mx-1"> {this.state.data[0].numCommande}{" "} </span>
+                      
                     </p>
-                    <p className="text-muted">{this.props.datecommande}</p>
+                    <p className="text-muted"> Date commande : {" "} {this.state.data[0].dateCommande}</p>
                   </Col>
                   <Col xs={6} className="text-right">
                     <p className="font-weight-bold mb-4">Client</p>
-                    <p className="mb-1">{this.props.client["nom"]}</p>
-                    <p>{this.props.client["tel"]}</p>
-                    <p className="mb-1">{this.props.client["adresse"]}</p>
+                    <p className="mb-1">{this.state.data[0].nomClient}</p>
+                    <p className="mb-1">{this.state.data[0].prenomClient}</p>
+                    <p className="mb-1"><b>Tel : </b>{this.format.formatTel(this.state.data[0].telClient)}</p>
+                    <p className="mb-1">{this.state.data[0].adresseClient}</p>
                     <p className="mb-1">
-                      {this.props.client["province"] +
-                        " " +
-                        this.props.client["cp"]}
+                      {this.state.data[0].provinceClient}
                     </p>
                   </Col>
                 </Row>
@@ -88,38 +115,31 @@ export default class Test extends Component {
                         </tr>
                       </thead>
                       <tbody>
-                        <tr>
-                          <td>1</td>
-                          <td>Software</td>
-                          <td>LTS Versions</td>
-                          <td>21</td>
-                          <td>$321</td>
-                          <td>$3452</td>
-                        </tr>
+                       {rows}
                       </tbody>
                     </table>
                   </Col>
                 </Row>
-                <div className="d-flex flex-row-reverse bg-dark text-white p-4">
-                  <div className="py-3 px-5 text-right">
-                    <div className="mb-2">Total</div>
-                    <div className="h2 font-weight-light"></div>
-                  </div>
-                </div>
+                <Row className="bg-dark p-4 m-0">
+                  <Col className="ml-auto text-right" md={4}>
+                  <div className="mb-2 text-white">Total</div>
+                  <div className="text-white"> <span> {this.format.formatPrix(total + "")}</span>{" "} <span className="mx-1"> Ariary </span> </div>
+                  </Col>
+                </Row>
               </CardBody>
             </div>
           </Card>
-        </Col>
+        </Col>): <Loading />}
       </Row>
     );
   }
 }
 
-Test.propTypes = {
+Facture.propTypes = {
   client: PropTypes.any,
   datecommande: PropTypes.any,
   numcommande: PropTypes.any
 };
-Test.defaultProps = {
+Facture.defaultProps = {
   client: []
 };

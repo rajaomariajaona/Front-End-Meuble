@@ -10,6 +10,7 @@ import { createBrowserHistory } from "history";
 import history from "../Other/History";
 import Categories from "../Categories/Categories";
 import Commandes from "../Commandes/Commandes";
+import NotFound from '../Other/NotFound';
 
 export default class Main extends Component {
   constructor(props) {
@@ -45,7 +46,7 @@ export default class Main extends Component {
               <Route path="/main/commandes/" component={Commandes} />
               <Route path="/main/clients/" component={Clients} />
               <Route path="/main/test/" component={Test} />
-              <Route component={() => <h1> ERROR </h1>} />
+              <Route component={NotFound} />
             </Switch>
           </Router>
         </Container>

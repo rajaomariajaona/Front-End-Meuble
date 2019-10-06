@@ -1,12 +1,13 @@
 import React, { Component } from "react";
-import { Button } from "shards-react";
+import { Button, Card, CardBody, CardHeader, Row, Col } from "shards-react";
 import ListeClients from "./ListeClients";
 import { Router, Switch, Route } from "react-router-dom";
 import FormulaireClient from "./FormulaireClient";
 import history from "../Other/History";
 import Format from "../Other/Format";
 import Confirmation from "../Other/Confirmation";
-import { FaPlus, FaSearch } from "react-icons/fa";
+import { FaPlus, FaSearch, FaFileCsv } from "react-icons/fa";
+import { CSVLink } from "react-csv";
 
 export default class Clients extends Component {
   // Access web service
@@ -98,7 +99,7 @@ export default class Clients extends Component {
   handleModification(event) {
     var num = event.currentTarget.id;
     this.setState({ modifyID: num });
-    history.replace("/main/clients/modif/" + num);
+    history.push("/main/clients/modif/" + num);
   }
 
   handleSuppression(event) {
@@ -124,12 +125,12 @@ export default class Clients extends Component {
 
   // evenements Affichage
   goToAjout() {
-    history.replace("/main/clients/ajout");
+    history.push("/main/clients/ajout");
   }
 
   redirect() {
     history.push("/temp");
-    history.replace("/main/clients");
+    history.push("/main/clients");
   }
   toggleModalConfirmation() {
     this.setState({ modalConfirmation: !this.state.modalConfirmation });
@@ -177,27 +178,54 @@ export default class Clients extends Component {
               exact
               path="/main/clients"
               component={() => (
-                <div>
-                  <Button
-                    className="m-3 p-2 shadow-sm"
-                    style={{ float: "right" }}
-                    theme="success"
-                    onClick={this.goToAjout}
-                  >
-                    {" "}
-                    <FaPlus
-                      style={{ fontWeight: "bold", fontSize: "1.5em" }}
-                    />{" "}
-                    Ajouter{" "}
-                  </Button>
+                <Card
+                  style={{
+                    marginTop: -40
+                  }}
+                >
+                  <CardHeader>
+                    <Row>
+                      <Col xs={12} md={6}>
+                        <h3> Liste des clients </h3>
+                      </Col>
+                      <Col
+                        xs={12}
+                        md={6}
+                        className="d-flex justify-content-end"
+                      >
+                        <CSVLink
+                          filename={"clients.csv"}
+                          data={this.state.dataClients}
+                          className="btn btn-primary btn-outline-primary btn-pill"
+                        >
+                          {" "}
+                          <FaFileCsv /> CSV{" "}
+                        </CSVLink>
+                      </Col>
+                    </Row>
+                  </CardHeader>
+                  <CardBody>
+                    <Button
+                      className=" mt-1 mb-3 p-2 shadow-sm"
+                      style={{ float: "right" }}
+                      theme="success"
+                      onClick={this.goToAjout}
+                    >
+                      {" "}
+                      <FaPlus
+                        style={{ fontWeight: "bold", fontSize: "1.5em" }}
+                      />{" "}
+                      Ajouter{" "}
+                    </Button>
 
-                  <ListeClients
-                    loading={this.state.loading}
-                    onDeleteClient={this.handleSuppression}
-                    onModifyClient={this.handleModification}
-                    clients={this.state.dataClients}
-                  />
-                </div>
+                    <ListeClients
+                      loading={this.state.loading}
+                      onDeleteClient={this.handleSuppression}
+                      onModifyClient={this.handleModification}
+                      clients={this.state.dataClients}
+                    />
+                  </CardBody>
+                </Card>
               )}
             />
 
@@ -237,4 +265,3 @@ export default class Clients extends Component {
     );
   }
 }
- 
