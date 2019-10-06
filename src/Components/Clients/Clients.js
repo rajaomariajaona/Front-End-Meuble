@@ -23,11 +23,11 @@ export default class Clients extends Component {
             temp["num"] = client.numClient;
             temp["nom"] = client.nomClient;
             temp["prenom"] = client.prenomClient;
-            temp["tel"] = new Format().formatTel(client.telClient);
+            temp["telephone"] = new Format().formatTel(client.telClient);
             temp["email"] = client.emailClient;
             temp["adresse"] = client.adresseClient;
             temp["province"] = client.provinceClient.province;
-            temp["cp"] = client.cpClient;
+            temp["code postale"] = client.cpClient;
             clients.push(temp);
           });
           this.setState({ loading: false, dataClients: clients });

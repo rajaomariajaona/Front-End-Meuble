@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button } from "shards-react";
+import { Button, Card, CardBody, CardHeader, Row, Col } from "shards-react";
 import Format from "../Other/Format";
 import ListeMeubles from "./ListeMeubles";
 import history from "../Other/History";
@@ -10,6 +10,8 @@ import { Route } from "react-router-dom";
 import FormulaireMeuble from "./FormulaireMeuble";
 import { FaPlus } from "react-icons/fa";
 import FormulaireStock from "./FormulaireStock";
+import {FaFileCsv} from 'react-icons/fa'
+import {CSVLink} from 'react-csv'
 
 export default class Meubles extends Component {
   // Access web service
@@ -95,21 +97,21 @@ export default class Meubles extends Component {
 
   patchStock(formData, stockOk) {
     var parameters = {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(formData)
-      };
-      var req = new Request(
-        "http://localhost:8000/api/meubles/"+ this.state.stockID +"/stock",
-        parameters
-      );
-      fetch(req).then(response => {
-        if (response.status === 200) {
-          stockOk();
-        }
-      });
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(formData)
+    };
+    var req = new Request(
+      "http://localhost:8000/api/meubles/" + this.state.stockID + "/stock",
+      parameters
+    );
+    fetch(req).then(response => {
+      if (response.status === 200) {
+        stockOk();
+      }
+    });
   }
 
   // fin access web service
@@ -213,7 +215,34 @@ export default class Meubles extends Component {
               exact
               path="/main/meubles/listes"
               component={() => (
-                <div>
+                <Card
+                  style={{
+                    marginTop: -40
+                  }}
+                >
+                <CardHeader>
+                    <Row>
+                      <Col xs={12} md={6}>
+                        <h3> Liste des Meubles </h3>
+                      </Col>
+                      <Col
+                        xs={12}
+                        md={6}
+                        className="d-flex justify-content-end"
+                      >
+                        <CSVLink
+                          filename={"meubles.csv"}
+                          data={this.state.dataMeubles}
+                          className="btn btn-primary btn-outline-primary btn-pill"
+                        >
+                          {" "}
+                          <FaFileCsv /> CSV{" "}
+                        </CSVLink>
+                      </Col>
+                    </Row>
+                  </CardHeader>
+                  <CardBody>
+
                   <Button
                     className="m-3 p-2 shadow-sm"
                     style={{ float: "right" }}
@@ -233,7 +262,8 @@ export default class Meubles extends Component {
                     loading={this.state.loading}
                     meubles={this.state.dataMeubles}
                   />
-                </div>
+                  </CardBody>
+                </Card>
               )}
             />
             <Route

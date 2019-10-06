@@ -143,7 +143,7 @@ export default class ListeClients extends Component {
           </Column>
           <Column width={150} resizable>
             <HeaderCell>Telephone</HeaderCell>
-            <Cell dataKey="tel" />
+            <Cell dataKey="telephone" />
           </Column>
           <Column width={300} resizable>
             <HeaderCell>Email</HeaderCell>
@@ -159,7 +159,7 @@ export default class ListeClients extends Component {
           </Column>
           <Column width={150} resizable>
             <HeaderCell>Code Postale</HeaderCell>
-            <Cell dataKey="cp" />
+            <Cell dataKey="code postale" />
           </Column>
           <Column width={230} fixed="right" resizable>
             <HeaderCell>Action</HeaderCell>

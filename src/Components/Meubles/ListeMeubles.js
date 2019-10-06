@@ -55,18 +55,9 @@ export default class ListeMeubles extends Component {
   }
   render() {
     return (
-      <div
-        className="shadow py-5 px-4"
-        style={{
-          backgroundColor: "white",
-          zIndex: 100,
-          marginTop: -30,
-          borderRadius: 2
-        }}
-      >
+      <div>
         <div className="row my-4">
           <div className="col-12 col-md-6">
-            <h3> Liste des meubles </h3>
           </div>
           <div className="col-12 col-md-6">
             <div className="row">

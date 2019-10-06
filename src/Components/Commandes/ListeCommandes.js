@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Table, Column, HeaderCell, Cell } from 'rsuite-table'
 
 import { Button, ButtonGroup } from "shards-react";
-import {FaPenAlt, FaTrashAlt, FaCartArrowDown, FaLuggageCart} from 'react-icons/fa'
+import {FaPenAlt, FaTrashAlt, FaCartArrowDown, FaLuggageCart, FaFileInvoiceDollar} from 'react-icons/fa'
 import { PropTypes } from 'prop-types';
 
 export default class ListeCommandes extends Component {
@@ -54,7 +54,7 @@ export default class ListeCommandes extends Component {
           {!row.etat && (<Button className="btn-sm text-white" id={row.num} theme="success" onClick={this.props.onModifyCommande}> <span><FaPenAlt/> Modifier </span>  </Button>)}
             <Button className="btn-sm text-white" id={row.num} theme="danger" onClick={this.props.onDeleteCommande}> <span><FaTrashAlt/> Supprimer </span>  </Button>
             {!row.etat && (<Button className="btn-sm text-white" id={row.num} theme="warning" onClick={this.props.onEtatChange} > <span> <FaLuggageCart /> Livrer </span> </Button>)}
-            {!row.etat ? (<Button className="btn-sm text-white" id={row.num} theme="primary" onClick={this.props.onPanierCommande}> <span><FaCartArrowDown/> Panier</span></Button>) : (<Button className="btn-sm text-white" id={row.num} theme="primary" onClick={this.props.onFactureCommande}> <span><FaCartArrowDown/> Facture</span></Button>)}
+            {!row.etat ? (<Button className="btn-sm text-white" id={row.num} theme="primary" onClick={this.props.onPanierCommande}> <span><FaCartArrowDown/> Panier</span></Button>) : (<Button className="btn-sm text-white" id={row.num} theme="primary" onClick={this.props.onFactureCommande}> <span><FaFileInvoiceDollar/> Facture</span></Button>)}
           </ButtonGroup>
          )
        }
