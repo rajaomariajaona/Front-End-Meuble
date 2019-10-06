@@ -22,7 +22,6 @@ export default class ListeCommandes extends Component {
             <div className="shadow py-5 px-4" style={{backgroundColor:'white', zIndex: 100, marginTop: -30, borderRadius: 4}}>
             <h3> Liste des commandes </h3>
        <Table 
-         loading={this.props.loading}
          data={this.state.commandes}
          height={window.innerHeight * 3/5}
        >

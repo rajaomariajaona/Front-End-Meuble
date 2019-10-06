@@ -10,6 +10,8 @@ import { FaPlus } from "react-icons/fa";
 import FormulaireCommandesMeubles from "./FormulaireCommandesMeubles";
 import Facture from "./Facture";
 import NotFound from "../Other/NotFound";
+import ReactWOW from "react-wow";
+import Loading from "../Other/Loading";
 export default class Contients extends Component {
   // Access webservice
 
@@ -188,7 +190,7 @@ export default class Contients extends Component {
   }
 
   componentDidMount() {
-      this.getCommandesMeubles();
+    this.getCommandesMeubles();
   }
   render() {
     return (
@@ -198,31 +200,36 @@ export default class Contients extends Component {
             <Route
               exact
               path="/main/commandes/contients/:num"
-              component={() => (
-                <div>
-                  <Button
-                    className="m-3 p-2 shadow-sm"
-                    style={{ float: "right" }}
-                    theme="success"
-                    onClick={this.goToAjout}
-                  >
-                    {" "}
-                    <FaPlus
-                      style={{ fontWeight: "bold", fontSize: "1.5em" }}
-                    />{" "}
-                    Ajouter{" "}
-                  </Button>
-                  <ListeCommandesMeubles
-                    loading={this.state.loading}
-                    onDeleteCommande={this.handleSuppression}
-                    onModifyCommande={this.handleModification}
-                    onPanierCommande={this.handlePanier}
-                    commandesMeubles={this.state.dataCommandesMeubles}
-                  />
-                </div>
-              )}
-            />
+              component={() => {
+                return !this.state.loading ? (
+                  <ReactWOW animation="zoomIn">
+                    <div>
+                      <Button
+                        className="m-3 p-2 shadow-sm"
+                        style={{ float: "right" }}
+                        theme="success"
+                        onClick={this.goToAjout}
+                      >
+                        {" "}
+                        <FaPlus
+                          style={{ fontWeight: "bold", fontSize: "1.5em" }}
+                        />{" "}
+                        Ajouter{" "}
+                      </Button>
 
+                      <ListeCommandesMeubles
+                        onDeleteCommande={this.handleSuppression}
+                        onModifyCommande={this.handleModification}
+                        onPanierCommande={this.handlePanier}
+                        commandesMeubles={this.state.dataCommandesMeubles}
+                      />
+                    </div>
+                  </ReactWOW>
+                ) : (
+                  <Loading />
+                );
+              }}
+            />
 
             <Route
               path="/main/commandes/contients/:num/ajout"
